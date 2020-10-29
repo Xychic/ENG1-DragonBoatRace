@@ -2,12 +2,16 @@ package com.dragonboatrace.game;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class MovementCharacteristics{
+public enum MovementCharacteristics {
+    STATIC("static", new Vector2(), new Tuple<Float, Float>((float)0, (float)0), new Tuple<Float, Float>((float)0, (float)0));
+    
+    String ID;
     Vector2 vel;
-    Tuple angleDelta;
-    Tuple wanderDelayRange;
+    Tuple<Float, Float> angleDelta;
+    Tuple<Float, Float> wanderDelayRange;
 
-    public MovementCharacteristics(Vector2 vel, Tuple angleDelta, Tuple wanderDelayRange){
+    private MovementCharacteristics(String ID, Vector2 vel, Tuple<Float, Float> angleDelta, Tuple<Float, Float> wanderDelayRange){
+        this.ID = ID;
         this.vel = vel;
         this.angleDelta = angleDelta;
         this.wanderDelayRange = wanderDelayRange;

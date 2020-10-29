@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public enum ObstacleType {
     //ID, Weight, Size, imageSrc, mover
-    branch("branch", 1, new Vector2(1,1), null, new MovementCharacteristics());
+    ROCK("rock", 1, new Vector2(1,1), null, MovementCharacteristics.STATIC);
 
     String ID;
     float weight;

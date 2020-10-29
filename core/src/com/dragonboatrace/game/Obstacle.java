@@ -20,6 +20,6 @@ public class Obstacle extends Entity{
     }
 
     public void render(SpriteBatch batch){
-
+        
     }
 }

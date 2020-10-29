@@ -34,7 +34,7 @@ public abstract class Boat extends Entity{
     }
 
     public void render(SpriteBatch batch) {
-        
+        batch.begin();
     }
 
 }
