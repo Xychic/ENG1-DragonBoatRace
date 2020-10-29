@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public enum BoatType {
     //TYPE( ID,          speed, accleration,    maxHealth,  weight, strength,   handling,   size,               imageSrc)
-    FAST("fastBoat",     1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  null),
-    NORMAL("normalBoat", 1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  null),
-    HEAVY("heavyBoat",   1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  null),
-    LIGHT("lightBoat",   1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  null),
-    AGILE("agileBoat",   1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  null),
-    STRONG("strongBoat", 1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  null);
+    FAST("fastBoat",     1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  "Boats/normal.jpg"),
+    NORMAL("normalBoat", 1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  "Boats/normal.jpg"),
+    HEAVY("heavyBoat",   1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  "Boats/normal.jpg"),
+    LIGHT("lightBoat",   1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  "Boats/normal.jpg"),
+    AGILE("agileBoat",   1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  "Boats/normal.jpg"),
+    STRONG("strongBoat", 1,     1,              1,          1,      1,          1,          new Vector2(5, 5),  "Boats/normal.jpg");
 
     String ID;
     float speed, acceleration, maxHealth, weight, strength, handling;
@@ -26,7 +26,7 @@ public enum BoatType {
         this.strength = strength;
         this.handling = handling;
         this.size = size;
-        // this.image = new Texture(imageSrc);
+        this.image = new Texture(imageSrc);
     }
 
     public String getID() {return this.ID;}
