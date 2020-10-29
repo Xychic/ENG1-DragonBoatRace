@@ -3,7 +3,8 @@ package com.dragonboatrace.game;
 import com.badlogic.gdx.math.Vector2;
 
 public enum MovementCharacteristics {
-    STATIC("static", new Vector2(), new Tuple<Float, Float>((float)0, (float)0), new Tuple<Float, Float>((float)0, (float)0));
+    STATIC("static", new Vector2(), new Tuple<Float, Float>((float)0, (float)0), new Tuple<Float, Float>((float)0, (float)0)),
+    CONSTANT("constant", new Vector2(-3, 3), new Tuple<Float, Float>((float)0, (float)0), new Tuple<Float, Float>((float)0, (float)0));
     
     String ID;
     Vector2 vel;

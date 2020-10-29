@@ -15,11 +15,20 @@ public class Obstacle extends Entity{
 
     }
 
-    public void move(float deltaTime){
-
+    public void move(float deltaTime) {
+        Vector2 moverVel = this.obstacleType.getMover().getVel();
+        this.vel = new Vector2().add(this.obstacleType.getMover().getVel());
     }
 
-    public void render(SpriteBatch batch){
-        
+    public void render(SpriteBatch batch, Vector2 relPos) {
+        batch.begin();
+        batch.draw(this.obstacleType.getImage(), 
+            (this.pos.x), (this.pos.y-relPos.y), 
+            this.obstacleType.getSize().x, this.obstacleType.getSize().y);
+        batch.end();
+    }
+
+    public void dispose() {
+        this.obstacleType.getImage().dispose();
     }
 }
