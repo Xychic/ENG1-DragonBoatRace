@@ -51,7 +51,7 @@ public abstract class Entity {
     }
 
     public abstract void render(SpriteBatch batch);
-    public abstract void move();
+    public abstract void move(float deltaTime);
     public abstract void collide(Entity e);
 
 }

@@ -15,7 +15,7 @@ public class Obstacle extends Entity{
 
     }
 
-    public void move(){
+    public void move(float deltaTime){
 
     }
 
