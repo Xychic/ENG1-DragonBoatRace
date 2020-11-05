@@ -15,9 +15,6 @@ public class PlayerBoat extends Boat {
     @Override
     public void move(float deltaTime) {
         // TODO constrain to screen
-
-        System.out.println(this.currentMaxSpeed);
-
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             this.vel.add(-(1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
         } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {

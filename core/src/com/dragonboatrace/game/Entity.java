@@ -51,7 +51,6 @@ public abstract class Entity {
                 float checkY = e.inGamePos.y + (dy * e.size.y);
                 if ((x1 <= checkX && checkX <= x2) && 
                     (y1 <= checkY && checkY <= y2)) {
-                        System.out.println(String.format("%d: Collide", TimeUtils.millis()));
                         this.collider = e;
                         return true;
                 }
@@ -65,6 +64,9 @@ public abstract class Entity {
     }
 
     public Vector2 getInGamePos() {return this.inGamePos;}
+    public Vector2 getVel() {return this.vel;}
+    public Vector2 getPos() {return this.pos;}
+    public Entity getCollider() {return this.collider;}
 
     public abstract void render(SpriteBatch batch, Vector2 relPos); 
     public abstract void move(float deltaTime);
