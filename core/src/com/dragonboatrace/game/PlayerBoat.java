@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PlayerBoat extends Boat {
 
+    float currentMaxSpeed;
+
     public PlayerBoat(BoatType boatType, Vector2 pos) {
         super(boatType, pos);
     }
@@ -14,17 +16,17 @@ public class PlayerBoat extends Boat {
     public void move(float deltaTime) {
         // TODO constrain to screen
 
-        System.out.println(this.vel);
+        System.out.println(this.currentMaxSpeed);
 
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            this.vel.add(-(1 * this.boatType.getHandling() * deltaTime), 0);
+            this.vel.add(-(1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
         } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            this.vel.add((1 * this.boatType.getHandling() * deltaTime), 0);
+            this.vel.add((1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
 
-        } if (Gdx.input.isKeyPressed(Keys.UP) && (this.vel.y < this.boatType.getSpeed())) {
-            this.vel.add(0, ((this.boatType.getAcceleration() / 100) * deltaTime));
-        } else if (Gdx.input.isKeyPressed(Keys.DOWN) && (this.vel.y > -(this.boatType.getSpeed()))) {
-            this.vel.add(0, -((this.boatType.getAcceleration() / 100) * deltaTime));
+        } if (Gdx.input.isKeyPressed(Keys.UP) && (this.vel.y < this.currentMaxSpeed) || (this.vel.y < -this.currentMaxSpeed)) {
+            this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
+        } else if (Gdx.input.isKeyPressed(Keys.DOWN) && (this.vel.y > -(this.currentMaxSpeed)) || this.vel.y > this.currentMaxSpeed) {
+            this.vel.add(0, -((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
         }
     }
 
@@ -41,6 +43,7 @@ public class PlayerBoat extends Boat {
         if (deltaY != 0) {
             this.inGamePos.add(0, deltaY);
         }
+        this.currentMaxSpeed = this.boatType.getSpeed();
+        if (this.collider != null) {this.currentMaxSpeed /= this.collider.weight;}
     }
-
 }

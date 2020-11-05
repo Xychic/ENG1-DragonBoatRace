@@ -8,6 +8,7 @@ public abstract class Entity {
 
     protected Vector2 pos, inGamePos, vel, inGameVel, acc, size;
     protected float weight, dampening;
+    protected Entity collider;
 
     public Entity(Vector2 pos, Vector2 size, float weight) {
         this.pos = pos;
@@ -18,11 +19,12 @@ public abstract class Entity {
         this.size = size;
         this.weight = weight;
         this.dampening = (float) 0.2;
+        this.collider = null;
     }
 
     public void update(float deltaTime) {
-        float deltaX = this.vel.x * this.dampening;
-        float deltaY = this.vel.y * this.dampening;
+        float deltaX = this.vel.x * this.dampening / (deltaTime * 60);
+        float deltaY = this.vel.y * this.dampening / (deltaTime * 60);
 
         if (deltaX != 0) {
             this.pos.add(deltaX, 0);
@@ -37,6 +39,7 @@ public abstract class Entity {
     }
 
     public boolean checkCollision(Entity e) {
+        this.collider = null;
         float x1 = this.inGamePos.x;
         float y1 = this.inGamePos.y;
         float x2 = this.inGamePos.x + this.size.x;
@@ -49,6 +52,7 @@ public abstract class Entity {
                 if ((x1 <= checkX && checkX <= x2) && 
                     (y1 <= checkY && checkY <= y2)) {
                         System.out.println(String.format("%d: Collide", TimeUtils.millis()));
+                        this.collider = e;
                         return true;
                 }
             }

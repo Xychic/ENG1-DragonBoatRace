@@ -16,8 +16,7 @@ public class Obstacle extends Entity{
     }
 
     public void move(float deltaTime) {
-        Vector2 moverVel = this.obstacleType.getMover().getVel();
-        this.vel = new Vector2().add(this.obstacleType.getMover().getVel());
+        this.vel = new Vector2().add(this.obstacleType.getMover().getAndUpdateVel(deltaTime));
     }
 
     public void render(SpriteBatch batch, Vector2 relPos) {
