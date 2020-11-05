@@ -5,13 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 
 public enum ObstacleType {
     //      ID,             Weight, Size,                   imageSrc,   mover
-    ROCK(   "rock",         4,      new Vector2(1,1),       null,       MovementCharacteristics.STATIC),
-    BRANCH( "branch" ,      1,      new Vector2(1,1),       null,       MovementCharacteristics.STATIC),
-    DUCK(   "duck",         2,      new Vector2(1,1) ,      null,       MovementCharacteristics.STATIC),
-    LONGBOI("longboi",      2,      new Vector2(1,1),       null,       MovementCharacteristics.STATIC),
-    BOAT(   "boat",         5,      new Vector2(1,1),       null,       MovementCharacteristics.STATIC),
-    RUBBISH("rubbish" ,     1,      new Vector2(1,1),       null,       MovementCharacteristics.STATIC),
-    BUOY(   "buoy",         3,      new Vector2(1,1),       null,       MovementCharacteristics.STATIC);
+    ROCK(   "rock",         4,      new Vector2(50, 50),       "badlogic.jpg",       MovementCharacteristics.STATIC),
+    BRANCH( "branch" ,  (float)1.5, new Vector2(50, 50),       "badlogic.jpg",       MovementCharacteristics.CONSTANT),
+    DUCK(   "duck",         2,      new Vector2(50, 50) ,      "badlogic.jpg",       MovementCharacteristics.WANDER),
+    LONGBOI("longboi",      2,      new Vector2(50, 50),       "badlogic.jpg",       MovementCharacteristics.STATIC),
+    BOAT(   "boat",         5,      new Vector2(50, 50),       "badlogic.jpg",       MovementCharacteristics.STATIC),
+    RUBBISH("rubbish" , (float)1.5, new Vector2(50, 50),       "badlogic.jpg",       MovementCharacteristics.STATIC),
+    BUOY(   "buoy",         3,      new Vector2(50, 50),       "badlogic.jpg",       MovementCharacteristics.STATIC);
 
     String ID;
     float weight;
@@ -41,5 +41,9 @@ public enum ObstacleType {
 
     public Texture getImage(){
         return this.image;
+    }
+
+    public MovementCharacteristics getMover() {
+        return this.mover;
     }
 }
