@@ -38,4 +38,11 @@ public abstract class Boat extends Entity{
     public void dispose() {
         this.boatType.getImage().dispose();
     }
+
+    public float getMaxSpeed() {
+        float speed = this.boatType.getSpeed();
+        if (this.collider != null) {speed /= this.collider.weight;} 
+        return speed;
+    }
+    public float getHealth() {return this.currentHealth;}
 }
