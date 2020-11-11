@@ -38,7 +38,8 @@ public class DragonBoatRace extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		String debugString = String.format("pos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 
+		String debugString = String.format("stamina: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 
+			pb.getStamina(),
 			pb.getPos().x, 
 			pb.getPos().y, 
 			pb.getVel().x,
@@ -46,7 +47,7 @@ public class DragonBoatRace extends ApplicationAdapter {
 			pb.getMaxSpeed(),
 			pb.getHealth(),
 			obstacleList.size(),
-			pb.getCollider());
+			pb.getCollider() != null ? pb.getCollider().getType().getID() : "null");
 		font.draw(batch, debugString, 10, Gdx.graphics.getHeight() - 10);
 		batch.end();
 

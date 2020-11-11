@@ -7,23 +7,34 @@ import com.badlogic.gdx.math.Vector2;
 public class PlayerBoat extends Boat {
 
     float currentMaxSpeed;
+    float stamina;
+    float maxStamina;
 
     public PlayerBoat(BoatType boatType, Vector2 pos) {
         super(boatType, pos);
+        this.stamina = 1000;
+        this.maxStamina = 1000;
     }
 
     @Override
     public void move(float deltaTime) {
         // TODO constrain to screen
-        if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            this.vel.add(-(1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
-        } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            this.vel.add((1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
-
-        } if (Gdx.input.isKeyPressed(Keys.UP) && (this.vel.y < this.currentMaxSpeed) || (this.vel.y < -this.currentMaxSpeed)) {
-            this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
-        } else if (Gdx.input.isKeyPressed(Keys.DOWN) && (this.vel.y > -(this.currentMaxSpeed)) || this.vel.y > this.currentMaxSpeed) {
-            this.vel.add(0, -((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
+        if (this.stamina > 0) {   
+            if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+                this.vel.add(-(1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
+                this.stamina -= 2 / (60 *deltaTime);
+            } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+                this.vel.add((1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
+                this.stamina -= 2 / (60 *deltaTime);
+            } if (Gdx.input.isKeyPressed(Keys.UP) && (this.vel.y < this.currentMaxSpeed) || (this.vel.y < -this.currentMaxSpeed)) {
+                this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
+                this.stamina -= 2 / (60 *deltaTime);
+            } else if (Gdx.input.isKeyPressed(Keys.DOWN) && (this.vel.y > -(this.currentMaxSpeed)) || this.vel.y > this.currentMaxSpeed) {
+                this.vel.add(0, -((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
+                this.stamina -= 2 / (60 *deltaTime);
+            }
+        } if (this.stamina < this.maxStamina) {
+            this.stamina += 1 / (60 * deltaTime);
         }
     }
 
@@ -43,4 +54,6 @@ public class PlayerBoat extends Boat {
         this.currentMaxSpeed = this.boatType.getSpeed();
         if (this.collider != null) {this.currentMaxSpeed /= this.collider.weight;}
     }
+
+    public float getStamina() {return this.stamina;}
 }
