@@ -8,7 +8,7 @@ public abstract class Entity {
 
     protected Vector2 pos, inGamePos, vel, inGameVel, acc, size;
     protected float weight, dampening;
-    protected Entity collider;
+    protected Obstacle collider;
 
     public Entity(Vector2 pos, Vector2 size, float weight) {
         this.pos = pos;
@@ -38,7 +38,7 @@ public abstract class Entity {
         }
     }
 
-    public boolean checkCollision(Entity e) {
+    public boolean checkCollision(Obstacle e){
         this.collider = null;
         float x1 = this.inGamePos.x;
         float y1 = this.inGamePos.y;
@@ -66,11 +66,11 @@ public abstract class Entity {
     public Vector2 getInGamePos() {return this.inGamePos;}
     public Vector2 getVel() {return this.vel;}
     public Vector2 getPos() {return this.pos;}
-    public Entity getCollider() {return this.collider;}
+    public Obstacle getCollider() {return this.collider;}
 
     public abstract void render(SpriteBatch batch, Vector2 relPos); 
     public abstract void move(float deltaTime);
-    public abstract void collide(Entity e);
+    public abstract void collide(Obstacle o);
     public abstract void dispose();
 
 }

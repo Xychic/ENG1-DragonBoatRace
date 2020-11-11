@@ -12,7 +12,7 @@ public class Obstacle extends Entity{
         this.obstacleType = obstacleType;
     }
 
-    public void collide(Entity e){
+    public void collide(Obstacle o){
 
     }
 
@@ -35,4 +35,6 @@ public class Obstacle extends Entity{
     public Vector2 getRelPos(Vector2 relPos) {
         return new Vector2((this.pos.x), (this.pos.y-relPos.y));
     }
+
+    public ObstacleType getType() {return this.obstacleType;}
 }

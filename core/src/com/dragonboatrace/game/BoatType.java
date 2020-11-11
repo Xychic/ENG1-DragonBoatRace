@@ -26,7 +26,7 @@ public enum BoatType {
         this.strength = strength;
         this.handling = handling;
         this.size = size;
-        this.image = new Texture("Boats/normal.jpg");
+        this.image = new Texture("Boats/StrongBoat.PNG");
     }
 
     public String getID() {return this.ID;}

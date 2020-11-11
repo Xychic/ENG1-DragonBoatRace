@@ -16,7 +16,7 @@ public abstract class Boat extends Entity{
         this.currentMaxSpeed = this.boatType.getSpeed();
     }
 
-    public void collide(Entity e) {
+    public void collide(Obstacle o) {
 
     }
 
