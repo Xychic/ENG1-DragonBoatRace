@@ -2,11 +2,13 @@ package com.dragonboatrace.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import java.util.ArrayList;
 
 public abstract class Boat extends Entity{
 
     protected BoatType boatType;
     protected float currentHealth, tiredness, currentMaxSpeed;
+    protected ArrayList<Obstacle> collided;
 
     public Boat(BoatType boatType, Vector2 pos) {
         super(pos, boatType.getSize(), boatType.getWeight());
@@ -14,10 +16,20 @@ public abstract class Boat extends Entity{
         this.currentHealth = this.boatType.getMaxHealth();
         this.tiredness = 100;
         this.currentMaxSpeed = this.boatType.getSpeed();
+        this.collided = new ArrayList<Obstacle>();
     }
 
     public void collide(Obstacle o) {
+        
+    }
 
+    public boolean checkCollision(Obstacle o) {
+        boolean colliding = super.checkCollision(o);
+        if (colliding && !this.collided.contains(o)) {
+            this.currentHealth -= o.weight;
+            this.collided.add(o);
+        }
+        return colliding;
     }
 
     public void render(SpriteBatch batch, Vector2 relPos) {
