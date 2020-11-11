@@ -10,7 +10,7 @@ public enum BoatType {
     HEAVY("heavyBoat",   3,     1,              400,        3,      2,          1,          new Vector2(100, 100),  "Boats/heavy.jpg"),
     LIGHT("lightBoat",   3,     3,              100,        1,      1,          3,          new Vector2(100, 100),  "Boats/light.jpg"),
     AGILE("agileBoat",   3,     2,              200,        2,      2,          3,          new Vector2(100, 100),  "Boats/agile.jpg"),
-    STRONG("strongBoat", 3,     2,              300,        3,      3,          1,          new Vector2(100, 100),  "Boats/strong.jpg");
+    STRONG("strongBoat", 3,     2,              300,        3,      3,          1,          new Vector2(100, 100),  "Boats/StrongBoat.PNG");
 
     String ID;
     float speed, acceleration, maxHealth, weight, strength, handling;
