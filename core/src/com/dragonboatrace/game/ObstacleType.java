@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public enum ObstacleType {
-    //      ID,             Weight, Size,                   speed   imageSrc,           mover
-    BUOY(   "buoy",         3,      new Vector2(50, 50),    0,      "badlogic.jpg",     MovementCharacteristics.STATIC),
-    ROCK(   "rock",         4,      new Vector2(50, 50),    0,      "badlogic.jpg",     MovementCharacteristics.STATIC),
-    BRANCH( "branch" ,  (float)1.5, new Vector2(50, 50),    1,      "badlogic.jpg",     MovementCharacteristics.CONSTANT),
-    DUCK(   "duck",         2,      new Vector2(50, 50),    2,      "badlogic.jpg",     MovementCharacteristics.WANDER),
-    RUBBISH("rubbish" , (float)1.5, new Vector2(50, 50),    3,      "badlogic.jpg",     MovementCharacteristics.STATIC),
-    LONGBOI("longboi",      2,      new Vector2(50, 50),    4,      "badlogic.jpg",     MovementCharacteristics.STATIC),
-    BOAT(   "boat",         5,      new Vector2(50, 50),    5,      "badlogic.jpg",     MovementCharacteristics.STATIC);
+    //      ID,             Weight, Size,                   speed   imageSrc,                   mover
+    BUOY(   "buoy",         3,      new Vector2(50, 50),    0,      "Obstacles/buoy.png",       MovementCharacteristics.STATIC),
+    ROCK(   "rock",         4,      new Vector2(50, 50),    0,      "Obstacles/rocks.png",      MovementCharacteristics.STATIC),
+    BRANCH( "branch" ,  (float)1.5, new Vector2(50, 50),    1,      "Obstacles/log.png",        MovementCharacteristics.CONSTANT),
+    DUCK(   "duck",         2,      new Vector2(50, 50),    2,      "Obstacles/duck.png",       MovementCharacteristics.WANDER),
+    RUBBISH("rubbish" , (float)1.5, new Vector2(50, 50),    3,      "Obstacles/garbage.png",    MovementCharacteristics.STATIC),
+    LONGBOI("longboi",      2,      new Vector2(50, 50),    4,      "Obstacles/longboi.png",    MovementCharacteristics.STATIC),
+    BOAT(   "boat",         5,      new Vector2(50, 50),    5,      "Obstacles/shipwreck.png",  MovementCharacteristics.STATIC);
 
     String ID;
     float weight;
