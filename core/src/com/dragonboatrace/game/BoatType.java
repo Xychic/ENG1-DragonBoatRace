@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public enum BoatType {
     //TYPE( ID,          speed, accleration,    maxHealth,  weight, strength,   handling,   size,               imageSrc)
     FAST("fastBoat",     4,     3,              100,        1,      1,          1,          new Vector2(100, 100),  "Boats/fast.jpg"),
-    NORMAL("normalBoat", 3,     2,              200,        2,      2,          2,          new Vector2(100, 100),  "Boats/normal.jpg"),
+    NORMAL("normalBoat", 30,     20,              200,        2,      2,          2,          new Vector2(100, 100),  "Boats/normal.jpg"),
     HEAVY("heavyBoat",   3,     1,              400,        3,      2,          1,          new Vector2(100, 100),  "Boats/heavy.jpg"),
     LIGHT("lightBoat",   3,     3,              100,        1,      1,          3,          new Vector2(100, 100),  "Boats/light.jpg"),
     AGILE("agileBoat",   3,     2,              200,        2,      2,          3,          new Vector2(100, 100),  "Boats/agile.jpg"),

@@ -24,14 +24,17 @@ public class GameScreen extends ScreenAdapter {
 	ArrayList<Obstacle> obstacleList;
 	ObstacleType[] obstacles;
 	Obstacle collider;
+	LaneMarker l;
 
-	int round, maxObstacles;
+	int round, maxObstacles, laneCount;
 	
 	Texture tmp;
 
 
 	public void create() {
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
+
+		l = new LaneMarker(new Vector2(100, 0));
 
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(1920/2, 10));	// Creating the players boat
 
@@ -62,6 +65,8 @@ public class GameScreen extends ScreenAdapter {
 		float deltaTime = Gdx.graphics.getDeltaTime();	// Getting time since last frame
 		Gdx.gl.glClearColor(0, 0, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		l.render(game.batch, pb.getInGamePos());
 
 		game.batch.begin();	// Start drawing HUD (For debugging)
 		String debugString = String.format("stamina: %f\nhealth: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 
