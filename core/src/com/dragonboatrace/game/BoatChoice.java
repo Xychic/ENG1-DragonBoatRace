@@ -6,11 +6,10 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 
-public class TitleScreen extends ScreenAdapter {
-
+public class BoatChoice extends ScreenAdapter{
     DragonBoatRace game;
 
-    public TitleScreen(DragonBoatRace game){
+    public BoatChoice(DragonBoatRace game){
         this.game = game;
     }
 
@@ -20,7 +19,7 @@ public class TitleScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new BoatChoice(game));
+                    game.setScreen(new GameScreen(game));
                 }
                 return true;
             }
@@ -32,8 +31,8 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.font.draw(game.batch, "Title Screen!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
-        game.font.draw(game.batch, "Press space to choose a boat.", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .25f);
+        game.font.draw(game.batch, "Choose a boat!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
+        game.font.draw(game.batch, "Press space to play.", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .25f);
         game.batch.end();
     }
 
