@@ -8,23 +8,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class GameScreen extends ScreenAdapter {
 	
 	DragonBoatRace game;
 
     public GameScreen(DragonBoatRace game){
-        this.game = game;
+		this.game = game;
+		this.create();
     }
 	
-	SpriteBatch batch;
 	Texture img;
 	PlayerBoat pb;
 	ArrayList<Obstacle> obstacleList;
-	BitmapFont font;
 	ObstacleType[] obstacles;
 	Obstacle collider;
 
@@ -34,8 +31,6 @@ public class GameScreen extends ScreenAdapter {
 
 
 	public void create() {
-		batch = new SpriteBatch();
-		font = new BitmapFont();
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
 
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(1920/2, 10));	// Creating the players boat
@@ -63,12 +58,12 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 
-	public void render() {
+	public void render(float delta) {
 		float deltaTime = Gdx.graphics.getDeltaTime();	// Getting time since last frame
 		Gdx.gl.glClearColor(0, 0, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch.begin();	// Start drawing HUD (For debugging)
+		game.batch.begin();	// Start drawing HUD (For debugging)
 		String debugString = String.format("stamina: %f\nhealth: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 
 			pb.getStamina(),
 			pb.getHealth(),
@@ -80,10 +75,10 @@ public class GameScreen extends ScreenAdapter {
 			pb.getHealth(),
 			obstacleList.size(),
 			collider != null ? collider.getType().getID() : "null");
-		font.draw(batch, debugString, 10, Gdx.graphics.getHeight() - 10);
-		batch.end();
+		game.font.draw(game.batch, debugString, 10, Gdx.graphics.getHeight() - 10);
+		game.batch.end();
 
-		pb.render(batch);	// Render the boat
+		pb.render(game.batch);	// Render the boat
 		pb.move(deltaTime);	// Move the boat based on player inputs
 		pb.update(deltaTime);	// Update the position of the boat 
 
@@ -100,7 +95,7 @@ public class GameScreen extends ScreenAdapter {
 				renderPos.y + o.size.y < -30) {
 					obstacleIterator.remove();	// If the obstacles is off the screen (apart from the top) delete it
 			} else {
-				o.render(batch, pb.getInGamePos());	// If the obstacle is not off the screen, render it
+				o.render(game.batch, pb.getInGamePos());	// If the obstacle is not off the screen, render it
 				o.move(deltaTime);	// Run the obstacles mover
 				o.update(deltaTime);	// Update the position of the obstacle
 				if (pb.checkCollision(o)) {	// See if the players boat is colliding with the obstacle
@@ -186,7 +181,7 @@ public class GameScreen extends ScreenAdapter {
 	
 	@Override
 	public void dispose() {
-		batch.dispose();
+		game.batch.dispose();
 		pb.dispose();
 	}
 }

@@ -16,7 +16,7 @@ public class DragonBoatRace extends Game{
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
-        setScreen(new midRoundScreen(this));
+        setScreen(new GameScreen(this));
     }
 
     @Override
