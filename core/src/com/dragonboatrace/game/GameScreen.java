@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,19 +26,34 @@ public class GameScreen extends ScreenAdapter {
 	ArrayList<Obstacle> obstacleList;
 	ObstacleType[] obstacles;
 	Obstacle collider;
-	LaneMarker l;
+	LaneMarker[] laneMarkers;
 
 	int round, maxObstacles, laneCount;
 	
 	Texture tmp;
 
+	@Override
+    public void show() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keyCode) {
+                if (keyCode == Input.Keys.ESCAPE) {
+                    System.exit(0);;
+                }
+                return true;
+            }
+        });
+    }
 
 	public void create() {
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
+		laneCount = 7;
+		laneMarkers = new LaneMarker[laneCount+1];
+		for (int i=0; i<laneCount+1;i++) {
+			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
+		}
 
-		l = new LaneMarker(new Vector2(100, 0));
-
-		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(1920/2, 10));	// Creating the players boat
+		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
 
@@ -66,7 +83,9 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		l.render(game.batch, pb.getInGamePos());
+		for (LaneMarker l : laneMarkers) {
+			l.render(game.batch, pb.getInGamePos());
+		}
 
 		game.batch.begin();	// Start drawing HUD (For debugging)
 		String debugString = String.format("stamina: %f\nhealth: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 
