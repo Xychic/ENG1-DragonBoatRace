@@ -20,12 +20,11 @@ public class LaneMarker extends Entity {
 
     public void render(SpriteBatch batch, Vector2 relPos) {
         batch.begin();
-        batch.draw(this.img, 
-            (this.pos.x), 
-            (this.pos.y-relPos.y) % this.img.getHeight());
-        batch.draw(this.img, 
-            (this.pos.x), 
-            ((this.pos.y-relPos.y) % this.img.getHeight()) + this.img.getHeight());
+        for (int i=0; i < ((2 * Gdx.graphics.getHeight()) / this.img.getHeight()); i++) {
+            batch.draw(this.img, 
+            (this.pos.x - this.size.x / 2), 
+            (this.pos.y-relPos.y) % this.img.getHeight() + (i * this.img.getHeight()));
+        }
         batch.end();
     }
 
