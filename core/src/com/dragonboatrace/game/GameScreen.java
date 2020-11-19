@@ -56,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
 		int backgroundCount = 5;
 		backgrounds = new Background[backgroundCount];
 		for (int i=0; i<backgroundCount; i++){
-			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
+			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*1080));
 		}
 
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
