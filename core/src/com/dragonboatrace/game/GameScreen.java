@@ -16,9 +16,9 @@ public class GameScreen extends ScreenAdapter {
 	
 	DragonBoatRace game;
 
-    public GameScreen(DragonBoatRace game){
+    public GameScreen(DragonBoatRace game, int round){
 		this.game = game;
-		this.create();
+		this.create(round);
     }
 	
 	Texture img;
@@ -27,9 +27,8 @@ public class GameScreen extends ScreenAdapter {
 	ObstacleType[] obstacles;
 	Obstacle collider;
 	LaneMarker[] laneMarkers;
-
+	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
-	
 	Texture tmp;
 
 	@Override
@@ -45,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
         });
     }
 
-	public void create() {
+	public void create(int round) {
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
 		laneCount = 7;
 		laneMarkers = new LaneMarker[laneCount+1];
@@ -53,11 +52,18 @@ public class GameScreen extends ScreenAdapter {
 			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
 		}
 
+		//int backgroundCount = (Gdx.graphics.getHeight() / 270) + 2;
+		int backgroundCount = 5;
+		backgrounds = new Background[backgroundCount];
+		for (int i=0; i<backgroundCount; i++){
+			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
+		}
+
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
 
-		int round = 0;		// temp hard coding, will be moved to a screen.
+		this.round = round;		// temp hard coding, will be moved to a screen.
 		switch (round) {	// The max number of obstacles changes from round to round
 			case 0:
 				maxObstacles = 10;
@@ -83,9 +89,14 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		for (Background b : backgrounds){
+			b.render(game.batch, pb.getInGamePos());
+		}
+
 		for (LaneMarker l : laneMarkers) {
 			l.render(game.batch, pb.getInGamePos());
 		}
+		
 
 		game.batch.begin();	// Start drawing HUD (For debugging)
 		String debugString = String.format("stamina: %f\nhealth: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 
