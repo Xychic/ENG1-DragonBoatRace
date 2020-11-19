@@ -29,7 +29,6 @@ public class GameScreen extends ScreenAdapter {
 	LaneMarker[] laneMarkers;
 	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
-	
 	Texture tmp;
 
 	@Override
@@ -53,13 +52,12 @@ public class GameScreen extends ScreenAdapter {
 			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
 		}
 
+		//int backgroundCount = (Gdx.graphics.getHeight() / 270) + 2;
 		int backgroundCount = 5;
 		backgrounds = new Background[backgroundCount];
 		for (int i=0; i<backgroundCount; i++){
 			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
 		}
-		
-
 
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
 
@@ -91,12 +89,14 @@ public class GameScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 1, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		for (LaneMarker l : laneMarkers) {
-			l.render(game.batch, pb.getInGamePos());
-		}
 		for (Background b : backgrounds){
 			b.render(game.batch, pb.getInGamePos());
 		}
+
+		for (LaneMarker l : laneMarkers) {
+			l.render(game.batch, pb.getInGamePos());
+		}
+		
 
 		game.batch.begin();	// Start drawing HUD (For debugging)
 		String debugString = String.format("stamina: %f\nhealth: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s", 

@@ -19,12 +19,19 @@ public class Background extends Entity {
     }
 
     public void render(SpriteBatch batch, Vector2 relPos) {
-        batch.begin();
-        for (int i=0; i < ((2 * Gdx.graphics.getHeight()) / this.img.getHeight()); i++) {
-            batch.draw(this.img, 
-            (this.pos.x - this.size.x / 2), 
-            (this.pos.y-relPos.y) % this.img.getHeight() + (i * this.img.getHeight()));
+
+        //if the background tile has gone off the screen move it to the top and give it a new texture
+        if(relPos.y - this.pos.y > 270){
+            this.pos.y += Gdx.graphics.getHeight() + 270;
+            this.img = new Texture("Backgrounds/background" + String.valueOf((int)(Math.random() * 4)) +".png");
         }
+
+        batch.begin();
+        batch.draw(
+            this.img, 
+            (this.pos.x - this.size.x / 2), 
+            (this.pos.y-relPos.y) 
+            );
         batch.end();
     }
 
