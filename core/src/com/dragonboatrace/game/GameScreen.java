@@ -27,7 +27,7 @@ public class GameScreen extends ScreenAdapter {
 	ObstacleType[] obstacles;
 	Obstacle collider;
 	LaneMarker[] laneMarkers;
-
+	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
 	
 	Texture tmp;
@@ -52,6 +52,14 @@ public class GameScreen extends ScreenAdapter {
 		for (int i=0; i<laneCount+1;i++) {
 			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
 		}
+
+		int backgroundCount = 5;
+		backgrounds = new Background[backgroundCount];
+		for (int i=0; i<backgroundCount; i++){
+			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
+		}
+		
+
 
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
 
@@ -85,6 +93,9 @@ public class GameScreen extends ScreenAdapter {
 
 		for (LaneMarker l : laneMarkers) {
 			l.render(game.batch, pb.getInGamePos());
+		}
+		for (Background b : backgrounds){
+			b.render(game.batch, pb.getInGamePos());
 		}
 
 		game.batch.begin();	// Start drawing HUD (For debugging)
