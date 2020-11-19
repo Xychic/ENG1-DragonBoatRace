@@ -16,9 +16,9 @@ public class GameScreen extends ScreenAdapter {
 	
 	DragonBoatRace game;
 
-    public GameScreen(DragonBoatRace game){
+    public GameScreen(DragonBoatRace game, int round){
 		this.game = game;
-		this.create();
+		this.create(round);
     }
 	
 	Texture img;
@@ -44,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
         });
     }
 
-	public void create() {
+	public void create(int round) {
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
 		laneCount = 7;
 		laneMarkers = new LaneMarker[laneCount+1];
@@ -63,7 +63,7 @@ public class GameScreen extends ScreenAdapter {
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
 
-		int round = 0;		// temp hard coding, will be moved to a screen.
+		this.round = round;		// temp hard coding, will be moved to a screen.
 		switch (round) {	// The max number of obstacles changes from round to round
 			case 0:
 				maxObstacles = 10;
