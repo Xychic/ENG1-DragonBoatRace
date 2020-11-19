@@ -45,8 +45,8 @@ public abstract class Boat extends Entity{
     public void render(SpriteBatch batch, Vector2 relPos) {
         batch.begin();
         batch.draw(this.boatType.getImage(), 
-        (this.pos.x-relPos.x), (this.pos.y-relPos.y),  
-        this.boatType.getSize().x, this.boatType.getSize().y);
+            (this.pos.x), (this.pos.y-relPos.y),  
+            this.boatType.getSize().x, this.boatType.getSize().y);
         batch.end();
     }
 

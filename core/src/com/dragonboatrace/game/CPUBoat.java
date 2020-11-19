@@ -15,10 +15,14 @@ public class CPUBoat extends Boat{
 
     @Override
     public void move(float deltaTime) {
-        this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
-        this.stamina -= 2 / (60 *deltaTime);
-        if (this.stamina < this.maxStamina) {
-            this.stamina += 1 / (60 * deltaTime);
+        if (this.vel.y < this.currentMaxSpeed) {
+            this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
+        } else if (this.vel.y > this.currentMaxSpeed) {
+            this.vel.add(0, -((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
+        }
+
+        if (this.currentHealth <= 0) {
+            this.vel = new Vector2();
         }
     }
 
@@ -48,6 +52,7 @@ public class CPUBoat extends Boat{
             this.vel.add(-deltaX, 0);
         }
         if (deltaY != 0) {
+            this.pos.add(0, deltaY);
             this.inGamePos.add(0, deltaY);
         }
     }
