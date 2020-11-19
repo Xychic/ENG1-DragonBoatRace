@@ -10,6 +10,7 @@ public abstract class Boat extends Entity{
     protected float currentHealth, currentMaxSpeed;
     protected ArrayList<Obstacle> collided;
     protected float stamina, maxStamina;
+    protected long finishTime;
 
     public Boat(BoatType boatType, Vector2 pos) {
         super(pos, boatType.getSize(), boatType.getWeight());
@@ -60,6 +61,26 @@ public abstract class Boat extends Entity{
     public void dispose() {
         this.boatType.getImage().dispose();
     }
+
+    public void checkFinished(int finishLine, long startTime){
+        if (this.isFinished(finishLine)){
+            this.setFinishTime(startTime);
+        }
+    }
+    
+    public String getFinishTime() {
+        if (this.finishTime == 0){
+            //calculate an estimate dnf is just temporary?
+            return "DNF";
+        }
+        else{
+            //returns the finish time in minutes:seconds
+            return String.valueOf((int) ((this.finishTime / 1000) / 60)) + ":" + String.valueOf((int) ((this.finishTime / 1000) % 60));
+        }
+    }
+
+    public boolean isFinished(int finishLine){return this.pos.x > finishLine;}
+    public void setFinishTime(long startTime) {this.finishTime = System.currentTimeMillis() - startTime;}
 
     public float getMaxSpeed() {return this.currentMaxSpeed;}
     public float getHealth() {return this.currentHealth;}

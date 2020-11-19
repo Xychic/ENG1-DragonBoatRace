@@ -30,6 +30,7 @@ public class GameScreen extends ScreenAdapter {
 	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
 	Texture tmp;
+	
 
 	@Override
     public void show() {
@@ -45,6 +46,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
 	public void create(int round) {
+
+		long raceStartTime = System.currentTimeMillis();
+
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
 		laneCount = 7;
 		laneMarkers = new LaneMarker[laneCount+1];
@@ -60,6 +64,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
+
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
 
