@@ -30,6 +30,7 @@ public class GameScreen extends ScreenAdapter {
 	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
 	Texture tmp;
+	CPUBoat[] CPUs;
 
 	@Override
     public void show() {
@@ -51,8 +52,16 @@ public class GameScreen extends ScreenAdapter {
 		for (int i=0; i<laneCount+1;i++) {
 			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
 		}
+		CPUs = new CPUBoat[laneCount-1];
+		
+		for (int i = 0; i<laneCount-1; i++){
+			int xpos = i;
+			if(i >= (laneCount-1)/2){
+				xpos += 1;
+			}
+			CPUs[i] = new CPUBoat(BoatType.NORMAL, new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), round ,new Vector2(0,0));
+		}
 
-		//int backgroundCount = (Gdx.graphics.getHeight() / 270) + 2;
 		int backgroundCount = 5;
 		backgrounds = new Background[backgroundCount];
 		for (int i=0; i<backgroundCount; i++){
@@ -116,6 +125,12 @@ public class GameScreen extends ScreenAdapter {
 		pb.render(game.batch);	// Render the boat
 		pb.move(deltaTime);	// Move the boat based on player inputs
 		pb.update(deltaTime);	// Update the position of the boat 
+
+		for (CPUBoat c : CPUs){
+			c.render(game.batch);
+			c.move(deltaTime);
+			c.update(deltaTime);
+		}
 
 		Iterator<Obstacle> obstacleIterator = obstacleList.iterator(); 	// Create iterator for iterating over the obstacles
 		

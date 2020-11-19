@@ -12,7 +12,7 @@ public abstract class Boat extends Entity{
     protected float stamina, maxStamina;
 
     public Boat(BoatType boatType, Vector2 pos) {
-        super(pos, boatType.getSize(), boatType.getWeight());
+        super(pos.cpy(), boatType.getSize(), boatType.getWeight());
         this.boatType = boatType;
         this.currentHealth = this.boatType.getMaxHealth();
         this.currentMaxSpeed = this.boatType.getSpeed();
