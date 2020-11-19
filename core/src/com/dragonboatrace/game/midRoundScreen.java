@@ -20,7 +20,7 @@ public class midRoundScreen extends ScreenAdapter{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new GameScreen(game, 0));
                 }
                 return true;
             }
