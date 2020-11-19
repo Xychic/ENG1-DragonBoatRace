@@ -6,12 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Obstacle extends Entity{
     protected ObstacleType obstacleType;
-    protected Vector2 constantVel;
 
-    public Obstacle(ObstacleType obstacleType, Vector2 pos, Vector2 vel){
+    public Obstacle(ObstacleType obstacleType, Vector2 pos){
         super(pos, obstacleType.getSize(), obstacleType.getWeight());
-        this.vel = vel;
-        this.constantVel = vel.cpy();
         this.obstacleType = obstacleType;
     }
 
@@ -20,8 +17,7 @@ public class Obstacle extends Entity{
     }
 
     public void move(float deltaTime) {
-        this.obstacleType.getMover().updateVel(deltaTime, this.constantVel);
-        this.vel = constantVel.cpy();
+        this.vel = new Vector2().add(this.obstacleType.getMover().getAndUpdateVel(deltaTime));
     }
 
     public void render(SpriteBatch batch, Vector2 relPos) {

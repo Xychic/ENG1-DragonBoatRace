@@ -7,18 +7,16 @@ import java.util.ArrayList;
 public abstract class Boat extends Entity{
 
     protected BoatType boatType;
-    protected float currentHealth, currentMaxSpeed;
+    protected float currentHealth, tiredness, currentMaxSpeed;
     protected ArrayList<Obstacle> collided;
-    protected float stamina, maxStamina;
 
     public Boat(BoatType boatType, Vector2 pos) {
         super(pos, boatType.getSize(), boatType.getWeight());
         this.boatType = boatType;
         this.currentHealth = this.boatType.getMaxHealth();
+        this.tiredness = 100;
         this.currentMaxSpeed = this.boatType.getSpeed();
         this.collided = new ArrayList<Obstacle>();
-        this.stamina = 1000;
-        this.maxStamina = 1000;
     }
 
     public void collide(Obstacle o) {
@@ -27,17 +25,9 @@ public abstract class Boat extends Entity{
 
     public boolean checkCollision(Obstacle o) {
         boolean colliding = super.checkCollision(o);
-
-        if (colliding) {
-            if (!this.collided.contains(o)) {
-                this.collided.add(o);
-                this.currentHealth -= o.weight;
-                this.currentMaxSpeed = this.boatType.getSpeed() / o.weight;
-                this.stamina = Math.max(this.stamina - 100 * o.weight, 0);
-            }
-        } else if (this.collided.contains(o)) {
-            this.collided.remove(o);
-            this.currentMaxSpeed = this.boatType.getSpeed();
+        if (colliding && !this.collided.contains(o)) {
+            this.currentHealth -= o.weight;
+            this.collided.add(o);
         }
         return colliding;
     }
@@ -61,7 +51,10 @@ public abstract class Boat extends Entity{
         this.boatType.getImage().dispose();
     }
 
-    public float getMaxSpeed() {return this.currentMaxSpeed;}
+    public float getMaxSpeed() {
+        float speed = this.boatType.getSpeed();
+        if (this.collider != null) {speed /= this.collider.weight;} 
+        return speed;
+    }
     public float getHealth() {return this.currentHealth;}
-    public float getStamina() {return this.stamina;}
 }
