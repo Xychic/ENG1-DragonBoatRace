@@ -6,13 +6,20 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PlayerBoat extends Boat {
 
+    float currentMaxSpeed;
+    float stamina;
+    float maxStamina;
+
     public PlayerBoat(BoatType boatType, Vector2 pos) {
         super(boatType, pos);
+        this.stamina = 1000;
+        this.maxStamina = 1000;
     }
 
     @Override
     public void move(float deltaTime) {
-        if (this.stamina > 0 && this.currentHealth > 0) {   
+        // TODO constrain to screen
+        if (this.stamina > 0) {   
             if (Gdx.input.isKeyPressed(Keys.LEFT)) {
                 this.vel.add(-(1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
                 this.stamina -= 2 / (60 *deltaTime);
@@ -44,6 +51,9 @@ public class PlayerBoat extends Boat {
         if (deltaY != 0) {
             this.inGamePos.add(0, deltaY);
         }
+        this.currentMaxSpeed = this.boatType.getSpeed();
+        if (this.collider != null) {this.currentMaxSpeed /= this.collider.weight;}
     }
 
+    public float getStamina() {return this.stamina;}
 }
