@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.GL20;
 public class Finale extends ScreenAdapter{
     
     DragonBoatRace game;
+    CPUBoat[] CPUs;
 
-    public Finale(DragonBoatRace game){
+    public Finale(DragonBoatRace game, CPUBoat[] CPUs){
         this.game = game;
+        this.CPUs = CPUs;
     }
 
     @Override

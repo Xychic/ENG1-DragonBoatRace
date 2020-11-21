@@ -30,11 +30,13 @@ public abstract class Entity {
             this.pos.add(deltaX, 0);
             this.inGamePos.add(deltaX, 0);
             this.vel.add(-deltaX, 0);
+
         }
         if (deltaY != 0) {
             this.pos.add(0, deltaY);
             this.inGamePos.add(0, deltaY);
             this.vel.add(0, -deltaY);
+
         }
     }
 

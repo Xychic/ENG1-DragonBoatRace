@@ -11,8 +11,9 @@ public enum ObstacleType {
     DUCK(   "duck",         2,      new Vector2(50, 50),    2,      "Obstacles/duck.png",       MovementCharacteristics.WANDER),
     RUBBISH("rubbish" , (float)1.5, new Vector2(50, 50),    3,      "Obstacles/garbage.png",    MovementCharacteristics.STATIC),
     LONGBOI("longboi",      2,      new Vector2(50, 50),    4,      "Obstacles/longboi.png",    MovementCharacteristics.STATIC),
-    BOAT(   "boat",         5,      new Vector2(50, 50),    5,      "Obstacles/shipwreck.png",  MovementCharacteristics.STATIC);
-
+    BOAT(   "boat",         5,      new Vector2(50, 50),    5,      "Obstacles/shipwreck.png",  MovementCharacteristics.STATIC),
+    FINISHLINE("finish",    0,      new Vector2(1920, 200), 0,      "Obstacles/finishline.png", MovementCharacteristics.STATIC);      
+    
     String ID;
     float weight;
     Vector2 size;

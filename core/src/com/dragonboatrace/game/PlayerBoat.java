@@ -5,9 +5,12 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerBoat extends Boat {
+    Vector2 startPos;
 
     public PlayerBoat(BoatType boatType, Vector2 pos) {
         super(boatType, pos);
+        startPos = pos;
+        System.out.println(startPos);
     }
 
     @Override
@@ -42,8 +45,18 @@ public class PlayerBoat extends Boat {
             this.vel.add(-deltaX, 0);
         }
         if (deltaY != 0) {
+            this.distanceTravelled += deltaY;
             this.inGamePos.add(0, deltaY);
         }
     }
 
+    public void moveToStart(){
+        pos = startPos;
+        vel = new Vector2();
+        stamina = maxStamina; 
+        distanceTravelled = 0;
+        totalTime += finishTime;
+        finishTime = 0;
+        finished = false;
+    }
 }
