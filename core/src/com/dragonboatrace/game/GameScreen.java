@@ -17,12 +17,14 @@ public class GameScreen extends ScreenAdapter {
 	DragonBoatRace game;
 	CPUBoat[] CPUs;
 	PlayerBoat pb;
+	Obstacle finishLineObstacle;
 
     public GameScreen(DragonBoatRace game, int round, CPUBoat[] CPUs, PlayerBoat playerBoat){
 		this.game = game;
 		this.create(round);
 		this.CPUs = CPUs;
 		this.pb = playerBoat;
+		this.finishLineObstacle = new Obstacle(ObstacleType.FINISHLINE, new Vector2(0,0), new Vector2(0,0));
     }
 	
 	Texture img;
@@ -120,6 +122,8 @@ public class GameScreen extends ScreenAdapter {
 		game.font.draw(game.batch, debugString, 10, Gdx.graphics.getHeight() - 10);
 		game.batch.end();
 
+		finishLineObstacle.render(game.batch, pb.getInGamePos());
+		
 		pb.render(game.batch);	// Render the boat
 		pb.move(deltaTime);	// Move the boat based on player inputs
 		pb.update(deltaTime);	// Update the position of the boat 
@@ -129,7 +133,9 @@ public class GameScreen extends ScreenAdapter {
 			c.move(deltaTime);
 			c.update(deltaTime);
 		}
-		
+
+
+
 		checkAllBoatsForFinished();
 
 		Iterator<Obstacle> obstacleIterator = obstacleList.iterator(); 	// Create iterator for iterating over the obstacles
@@ -249,6 +255,8 @@ public class GameScreen extends ScreenAdapter {
 				break;
 		}
 		
+		finishLineObstacle.pos.y = finishLine;
+
 		for (CPUBoat cpu : CPUs){
 			cpu.checkFinished(finishLine, this.raceStartTime);
 		}

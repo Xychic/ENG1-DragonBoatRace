@@ -34,13 +34,11 @@ public class midRoundScreen extends ScreenAdapter{
 
                     for(CPUBoat CPU : CPUs){
                         CPU.moveToStart(pb.inGamePos.y);
-                        System.out.println(CPU.inGamePos);
                     }
 
-                    System.out.println(pb.inGamePos);
-                    
                     pb.moveToStart();
                     game.setScreen(new GameScreen(game, round + 1, CPUs, pb));
+                    
                 }
                 return true;
             }
