@@ -36,7 +36,9 @@ public class BoatChoice extends ScreenAdapter {
                 boatType, 
                 new Vector2(
                     (Gdx.graphics.getWidth() / 2) - (this.boatScale * .5f * boatType.getSize().x), 
-                    (Gdx.graphics.getHeight() / 2) - (this.boatScale * .5f * boatType.getSize().y)));
+                    (Gdx.graphics.getHeight() / 2) - (this.boatScale * .5f * boatType.getSize().y)),
+                null
+            );
             this.boats[i].size.scl(this.boatScale);
         }
 
@@ -63,15 +65,31 @@ public class BoatChoice extends ScreenAdapter {
                         if(i >= (laneCount-1)/2){
                             xpos += 1;
                         }
+                        BoatType cpuBoatType = BoatTypes.get((int) (Math.random() * BoatTypes.size()));
                         CPUs[i] = new CPUBoat(
-                            BoatTypes.get((int) (Math.random() * BoatTypes.size())), 
-                            new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), 
-                            0, new Vector2(0,0)
+                            cpuBoatType, 
+                            new Vector2(
+                                (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount), 
+                                10
+                            ), 0,
+                            new Tuple<Float, Float>(
+                                (float)((xpos+0)*(Gdx.graphics.getWidth() / (laneCount)) - cpuBoatType.getSize().x / 2), 
+                                (float)((xpos+1)*(Gdx.graphics.getWidth() / (laneCount)) - cpuBoatType.getSize().x / 2)
+                            )
                         );
                         CPUs[i].saveStartPos();
                     }
 
-                    PlayerBoat pb = new PlayerBoat(BoatTypes.get(selection), new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
+                    PlayerBoat pb = new PlayerBoat(
+                        BoatTypes.get(selection), 
+                        new Vector2(
+                            Gdx.graphics.getWidth()/2, 
+                            10
+                        ), new Tuple<Float, Float>(
+                            (float)(((laneCount-1) / 2)*(Gdx.graphics.getWidth() / (laneCount)) - BoatTypes.get(selection).getSize().x / 2), 
+                            (float)(((laneCount+1) / 2)*(Gdx.graphics.getWidth() / (laneCount)) - BoatTypes.get(selection).getSize().x / 2)
+                        )
+                    );	// Creating the players boat
                     pb.saveStartPos();
 
                     game.setScreen(new GameScreen(game, 0, CPUs, pb));

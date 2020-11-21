@@ -9,15 +9,16 @@ public abstract class Boat extends Entity{
     protected BoatType boatType;
     protected float currentHealth, currentMaxSpeed;
     protected ArrayList<Obstacle> collided;
-    protected float stamina, maxStamina;
+    protected float stamina, maxStamina, timePenalties, penaltyResetDelay;
     protected long finishTime;
     protected boolean finished = false;
     protected float distanceTravelled; //distance travelled in one round
     protected Long totalTime;
+    protected Tuple<Float, Float> laneBounds;
 
     protected Vector2 startPos;
 
-    public Boat(BoatType boatType, Vector2 pos) {
+    public Boat(BoatType boatType, Vector2 pos, Tuple<Float, Float> laneBounds) {
         super(pos.cpy(), boatType.getSize().cpy(), boatType.getWeight());
         this.boatType = boatType;
         this.currentHealth = this.boatType.getMaxHealth();
@@ -27,6 +28,7 @@ public abstract class Boat extends Entity{
         this.maxStamina = 1000;
         this.distanceTravelled = 0;
         this.totalTime = (long) 0;
+        this.laneBounds = laneBounds;
     }
 
     public void collide(Obstacle o) {
@@ -47,6 +49,7 @@ public abstract class Boat extends Entity{
             this.collided.remove(o);
             this.currentMaxSpeed = this.boatType.getSpeed();
         }
+
         return colliding;
     }
 
@@ -78,7 +81,7 @@ public abstract class Boat extends Entity{
             return true;
         }
         else if (this.isFinished(finishLine)){
-            this.setFinishTime(System.currentTimeMillis() - startTime);
+            this.setFinishTime(System.currentTimeMillis() - startTime + (long)this.timePenalties);
             this.finished = true;
         }
         return this.finished;
