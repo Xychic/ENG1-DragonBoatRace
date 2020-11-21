@@ -9,9 +9,13 @@ import com.badlogic.gdx.graphics.GL20;
 public class midRoundScreen extends ScreenAdapter{
     
     DragonBoatRace game;
+    CPUBoat[] CPUs;
+    int round;
 
-    public midRoundScreen(DragonBoatRace game){
+    public midRoundScreen(DragonBoatRace game, int round, CPUBoat[] CPUs){
         this.game = game;
+        this.CPUs = CPUs;
+        this.round = round;
     }
 
     @Override
@@ -20,7 +24,7 @@ public class midRoundScreen extends ScreenAdapter{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game, 0));
+                    game.setScreen(new GameScreen(game, round + 1, CPUs));
                 }
                 return true;
             }

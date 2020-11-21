@@ -15,10 +15,12 @@ import com.badlogic.gdx.math.Vector2;
 public class GameScreen extends ScreenAdapter {
 	
 	DragonBoatRace game;
+	CPUBoat[] CPUs;
 
-    public GameScreen(DragonBoatRace game, int round){
+    public GameScreen(DragonBoatRace game, int round, CPUBoat[] CPUs){
 		this.game = game;
 		this.create(round);
+		this.CPUs = CPUs;
     }
 	
 	Texture img;
@@ -30,7 +32,7 @@ public class GameScreen extends ScreenAdapter {
 	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
 	Texture tmp;
-	CPUBoat[] CPUs;
+	long raceStartTime;
 
 	@Override
     public void show() {
@@ -47,22 +49,13 @@ public class GameScreen extends ScreenAdapter {
 
 	public void create(int round) {
 
-		long raceStartTime = System.currentTimeMillis();
+		raceStartTime = System.currentTimeMillis();
 
 		obstacles = new ObstacleType[]{ObstacleType.BUOY, ObstacleType.ROCK, ObstacleType.BRANCH, ObstacleType.DUCK, ObstacleType.RUBBISH, ObstacleType.LONGBOI, ObstacleType.BOAT};	// The 
 		laneCount = 7;
 		laneMarkers = new LaneMarker[laneCount+1];
 		for (int i=0; i<laneCount+1;i++) {
 			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
-		}
-		CPUs = new CPUBoat[laneCount-1];
-		
-		for (int i = 0; i<laneCount-1; i++){
-			int xpos = i;
-			if(i >= (laneCount-1)/2){
-				xpos += 1;
-			}
-			CPUs[i] = new CPUBoat(BoatType.NORMAL, new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), round ,new Vector2(0,0));
 		}
 
 		int backgroundCount = 5;
@@ -229,6 +222,49 @@ public class GameScreen extends ScreenAdapter {
 		dir.limit(obs.getSpeed());	// Limit the vector to the max speed of the obstacle
 
 		return new Obstacle(obs, spawnPos, dir);	// Return the new obstacle
+	}
+
+	private void checkAllBoatsForFinished(){
+
+		int finishLine;
+
+		switch(round){
+			case 0:
+				finishLine = 1000;
+			case 1:
+				finishLine = 1200;
+			case 2:
+				finishLine = 1400;
+			case 3:
+				finishLine = 1500;
+			default:
+				finishLine = 1000;
+		}
+
+		for (CPUBoat cpu : CPUs){
+			cpu.checkFinished(finishLine, this.raceStartTime);
+		}
+
+		if(pb.checkFinished(finishLine, this.raceStartTime)){
+			//calculate the times it would have taken or did take the cpus to finish
+			//send every boats finishing time to the next screen along w the current round
+			
+			for (CPUBoat cpu : CPUs){
+				if(!cpu.checkFinished(finishLine, this.raceStartTime)){
+					long timeEstimate = (long) ((System.currentTimeMillis() - this.raceStartTime)* (finishLine/cpu.pos.x));
+					cpu.setFinishTime(timeEstimate);
+				}
+			}
+
+			if (round != 3){
+				//go to mid round screen
+				game.setScreen(new midRoundScreen(game, round, CPUs));
+			}
+			else{
+				game.setScreen(new Finale(game, CPUs));
+			}
+				
+		}
 	}
 
 	private Boat checkWinner() {

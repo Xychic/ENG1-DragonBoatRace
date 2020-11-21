@@ -11,6 +11,7 @@ public abstract class Boat extends Entity{
     protected ArrayList<Obstacle> collided;
     protected float stamina, maxStamina;
     protected long finishTime;
+    protected boolean finished = false;
 
     public Boat(BoatType boatType, Vector2 pos) {
         super(pos.cpy(), boatType.getSize(), boatType.getWeight());
@@ -65,11 +66,16 @@ public abstract class Boat extends Entity{
     public boolean checkFinished(int finishLine , long startTime){
         //finish line is the pixels from the start that the boats have to travel
         //start time is the system time when the race started
-        if (this.isFinished(finishLine)){
-            this.setFinishTime(startTime);
+        
+        if (this.finished){
             return true;
         }
-        return false;
+        else if (this.isFinished(finishLine)){
+            this.setFinishTime(System.currentTimeMillis() - startTime);
+            this.finished = true;
+        }
+        return this.finished;
+    
     }
     public long getFinishTimeLong(){
         return finishTime;
@@ -86,9 +92,9 @@ public abstract class Boat extends Entity{
             return String.valueOf((int) ((this.finishTime / 1000) / 60)) + ":" + String.valueOf((int) ((this.finishTime / 1000) % 60));
         }
     }
-
-    public boolean isFinished(int finishLine){return this.pos.x > finishLine;}
-    public void setFinishTime(long startTime) {this.finishTime = System.currentTimeMillis() - startTime;}
+    //                          this needs to be y value travelled from start line
+    public boolean isFinished(int finishLine){return this.pos.y > finishLine;}
+    public void setFinishTime(long finishTime) {this.finishTime = finishTime;}
 
     public float getMaxSpeed() {return this.currentMaxSpeed;}
     public float getHealth() {return this.currentHealth;}

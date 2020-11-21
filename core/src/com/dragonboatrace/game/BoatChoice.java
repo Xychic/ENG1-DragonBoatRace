@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 
 public class BoatChoice extends ScreenAdapter{
     DragonBoatRace game;
@@ -19,7 +20,20 @@ public class BoatChoice extends ScreenAdapter{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game, 0));
+
+                    int laneCount = 7;
+
+                    CPUBoat[] CPUs = new CPUBoat[laneCount-1];
+		
+                    for (int i = 0; i<laneCount-1; i++){
+                        int xpos = i;
+                        if(i >= (laneCount-1)/2){
+                            xpos += 1;
+                        }
+                        CPUs[i] = new CPUBoat(BoatType.NORMAL, new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), 0 ,new Vector2(0,0));
+                    }
+
+                    game.setScreen(new GameScreen(game, 0, CPUs));
                 }
                 return true;
             }
