@@ -248,7 +248,7 @@ public class GameScreen extends ScreenAdapter {
 				finishLine = 1000;
 				break;
 		}
-
+		
 		for (CPUBoat cpu : CPUs){
 			cpu.checkFinished(finishLine, this.raceStartTime);
 		}
