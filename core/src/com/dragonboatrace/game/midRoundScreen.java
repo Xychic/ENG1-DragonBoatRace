@@ -11,11 +11,13 @@ public class midRoundScreen extends ScreenAdapter{
     DragonBoatRace game;
     CPUBoat[] CPUs;
     int round;
+    PlayerBoat pb;
 
-    public midRoundScreen(DragonBoatRace game, int round, CPUBoat[] CPUs){
+    public midRoundScreen(DragonBoatRace game, int round, CPUBoat[] CPUs, PlayerBoat playerBoat){
         this.game = game;
         this.CPUs = CPUs;
         this.round = round;
+        this.pb = playerBoat;
     }
 
     @Override
@@ -24,7 +26,16 @@ public class midRoundScreen extends ScreenAdapter{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game, round + 1, CPUs));
+
+                    for(CPUBoat CPU : CPUs){
+                        CPU.moveToStart(pb.inGamePos.y);
+                        System.out.println(CPU.inGamePos);
+                    }
+
+                    System.out.println(pb.inGamePos);
+                    
+                    pb.moveToStart();
+                    game.setScreen(new GameScreen(game, round + 1, CPUs, pb));
                 }
                 return true;
             }

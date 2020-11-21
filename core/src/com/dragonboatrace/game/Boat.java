@@ -12,6 +12,8 @@ public abstract class Boat extends Entity{
     protected float stamina, maxStamina;
     protected long finishTime;
     protected boolean finished = false;
+    protected float distanceTravelled; //distance travelled in one round
+    protected Long totalTime;
 
     public Boat(BoatType boatType, Vector2 pos) {
         super(pos.cpy(), boatType.getSize(), boatType.getWeight());
@@ -21,6 +23,8 @@ public abstract class Boat extends Entity{
         this.collided = new ArrayList<Obstacle>();
         this.stamina = 1000;
         this.maxStamina = 1000;
+        this.distanceTravelled = 0;
+        this.totalTime = (long) 0;
     }
 
     public void collide(Obstacle o) {
@@ -56,6 +60,7 @@ public abstract class Boat extends Entity{
     public void update(float deltaTime) {
         this.currentMaxSpeed = this.boatType.getSpeed();
         if (this.collider != null) {this.currentMaxSpeed /= this.collider.weight;}
+
         super.update(deltaTime);
     }
 
@@ -77,10 +82,6 @@ public abstract class Boat extends Entity{
         return this.finished;
     
     }
-    public long getFinishTimeLong(){
-        return finishTime;
-
-    }
 
     public String getFinishTimeString() {
         if (this.finishTime == 0){
@@ -92,11 +93,13 @@ public abstract class Boat extends Entity{
             return String.valueOf((int) ((this.finishTime / 1000) / 60)) + ":" + String.valueOf((int) ((this.finishTime / 1000) % 60));
         }
     }
-    //                          this needs to be y value travelled from start line
-    public boolean isFinished(int finishLine){return this.pos.y > finishLine;}
+
+    public boolean isFinished(int finishLine){return this.distanceTravelled > finishLine;}
     public void setFinishTime(long finishTime) {this.finishTime = finishTime;}
 
+    public long getFinishTimeLong(){return finishTime;}
     public float getMaxSpeed() {return this.currentMaxSpeed;}
     public float getHealth() {return this.currentHealth;}
     public float getStamina() {return this.stamina;}
+    public float getDistanceTravelled() {return this.distanceTravelled;}
 }

@@ -5,12 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 public class CPUBoat extends Boat{
     
     int difficulty;
-    Vector2 laneBarriers;
+    Vector2 laneBarriers, startPos;
 
     public CPUBoat(BoatType boatType, Vector2 pos, int difficulty, Vector2 laneBarriers) {
         super(boatType, pos);
         this.difficulty = difficulty;
         this.laneBarriers = laneBarriers;
+        this.startPos = pos;
     }
 
     @Override
@@ -54,11 +55,26 @@ public class CPUBoat extends Boat{
         if (deltaY != 0) {
             this.pos.add(0, deltaY);
             this.inGamePos.add(0, deltaY);
+            this.distanceTravelled += deltaY;
         }
     }
 
     public String getCurrentPos(){
         return this.pos.toString() + " , " + this.inGamePos.toString();
     }
- 
+    
+    public void moveToStart(float y){
+        //float y is the position of the player boat
+        //this will move all the cpu boats up to the finish line and reset all of their round specific stats
+
+        pos = startPos;
+        inGamePos.y = y;
+        vel = new Vector2();
+        stamina = maxStamina; 
+        distanceTravelled = 0;
+        totalTime += finishTime;
+        finishTime = 0;
+        finished = false;
+    }
+
 }

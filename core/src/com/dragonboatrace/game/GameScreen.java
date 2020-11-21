@@ -16,15 +16,17 @@ public class GameScreen extends ScreenAdapter {
 	
 	DragonBoatRace game;
 	CPUBoat[] CPUs;
+	PlayerBoat pb;
 
-    public GameScreen(DragonBoatRace game, int round, CPUBoat[] CPUs){
+    public GameScreen(DragonBoatRace game, int round, CPUBoat[] CPUs, PlayerBoat playerBoat){
 		this.game = game;
 		this.create(round);
 		this.CPUs = CPUs;
+		this.pb = playerBoat;
     }
 	
 	Texture img;
-	PlayerBoat pb;
+	
 	ArrayList<Obstacle> obstacleList;
 	ObstacleType[] obstacles;
 	Obstacle collider;
@@ -64,7 +66,7 @@ public class GameScreen extends ScreenAdapter {
 			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
 		}
 
-		pb = new PlayerBoat(BoatType.FAST, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
+		
 
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
@@ -88,7 +90,6 @@ public class GameScreen extends ScreenAdapter {
 				break;
 		}
 	}
-
 
 	public void render(float delta) {
 		float deltaTime = Gdx.graphics.getDeltaTime();	// Getting time since last frame
@@ -128,6 +129,8 @@ public class GameScreen extends ScreenAdapter {
 			c.move(deltaTime);
 			c.update(deltaTime);
 		}
+		
+		checkAllBoatsForFinished();
 
 		Iterator<Obstacle> obstacleIterator = obstacleList.iterator(); 	// Create iterator for iterating over the obstacles
 		
@@ -230,15 +233,20 @@ public class GameScreen extends ScreenAdapter {
 
 		switch(round){
 			case 0:
-				finishLine = 1000;
+				finishLine = 20000;
+				break;
 			case 1:
-				finishLine = 1200;
+				finishLine = 24000;
+				break;
 			case 2:
-				finishLine = 1400;
+				finishLine = 28000;
+				break;
 			case 3:
-				finishLine = 1500;
+				finishLine = 30000;
+				break;
 			default:
 				finishLine = 1000;
+				break;
 		}
 
 		for (CPUBoat cpu : CPUs){
@@ -258,7 +266,7 @@ public class GameScreen extends ScreenAdapter {
 
 			if (round != 3){
 				//go to mid round screen
-				game.setScreen(new midRoundScreen(game, round, CPUs));
+				game.setScreen(new midRoundScreen(game, round, CPUs, pb));
 			}
 			else{
 				game.setScreen(new Finale(game, CPUs));
