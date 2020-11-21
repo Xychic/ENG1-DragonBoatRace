@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 
-public class BoatChoice extends ScreenAdapter{
+public class BoatChoice extends ScreenAdapter {
     DragonBoatRace game;
     Boat[] boats;
     ArrayList<BoatType> BoatTypes;
@@ -63,7 +63,11 @@ public class BoatChoice extends ScreenAdapter{
                         if(i >= (laneCount-1)/2){
                             xpos += 1;
                         }
-                        CPUs[i] = new CPUBoat(BoatType.NORMAL, new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), 0 ,new Vector2(0,0));
+                        CPUs[i] = new CPUBoat(
+                            BoatTypes.get((int) (Math.random() * BoatTypes.size())), 
+                            new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), 
+                            0, new Vector2(0,0)
+                        );
                         CPUs[i].saveStartPos();
                     }
 
