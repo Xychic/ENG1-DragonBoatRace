@@ -13,7 +13,7 @@ public abstract class Boat extends Entity{
     protected long finishTime;
 
     public Boat(BoatType boatType, Vector2 pos) {
-        super(pos, boatType.getSize(), boatType.getWeight());
+        super(pos.cpy(), boatType.getSize(), boatType.getWeight());
         this.boatType = boatType;
         this.currentHealth = this.boatType.getMaxHealth();
         this.currentMaxSpeed = this.boatType.getSpeed();
@@ -46,8 +46,8 @@ public abstract class Boat extends Entity{
     public void render(SpriteBatch batch, Vector2 relPos) {
         batch.begin();
         batch.draw(this.boatType.getImage(), 
-        (this.pos.x-relPos.x), (this.pos.y-relPos.y),  
-        this.boatType.getSize().x, this.boatType.getSize().y);
+            (this.pos.x), (this.pos.y-relPos.y),  
+            this.boatType.getSize().x, this.boatType.getSize().y);
         batch.end();
     }
 

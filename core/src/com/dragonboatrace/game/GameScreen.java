@@ -30,7 +30,7 @@ public class GameScreen extends ScreenAdapter {
 	Background[] backgrounds;
 	int round, maxObstacles, laneCount;
 	Texture tmp;
-	
+	CPUBoat[] CPUs;
 
 	@Override
     public void show() {
@@ -55,15 +55,23 @@ public class GameScreen extends ScreenAdapter {
 		for (int i=0; i<laneCount+1;i++) {
 			laneMarkers[i] = new LaneMarker(new Vector2(i * Gdx.graphics.getWidth() / (laneCount), 0));
 		}
+		CPUs = new CPUBoat[laneCount-1];
+		
+		for (int i = 0; i<laneCount-1; i++){
+			int xpos = i;
+			if(i >= (laneCount-1)/2){
+				xpos += 1;
+			}
+			CPUs[i] = new CPUBoat(BoatType.NORMAL, new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), round ,new Vector2(0,0));
+		}
 
-		//int backgroundCount = (Gdx.graphics.getHeight() / 270) + 2;
 		int backgroundCount = 5;
 		backgrounds = new Background[backgroundCount];
 		for (int i=0; i<backgroundCount; i++){
 			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
 		}
 
-		pb = new PlayerBoat(BoatType.NORMAL, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
+		pb = new PlayerBoat(BoatType.FAST, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
 
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
@@ -71,16 +79,16 @@ public class GameScreen extends ScreenAdapter {
 		this.round = round;		// temp hard coding, will be moved to a screen.
 		switch (round) {	// The max number of obstacles changes from round to round
 			case 0:
-				maxObstacles = 10;
+				maxObstacles = 30;
 				break;
 			case 1:
-				maxObstacles = 15;
+				maxObstacles = 45;
 				break;
 			case 2:
-				maxObstacles = 20;
+				maxObstacles = 60;
 				break;
 			case 3:
-				maxObstacles = 30;
+				maxObstacles = 90;
 				break;
 			default:
 				maxObstacles = 0;
@@ -122,6 +130,12 @@ public class GameScreen extends ScreenAdapter {
 		pb.move(deltaTime);	// Move the boat based on player inputs
 		pb.update(deltaTime);	// Update the position of the boat 
 
+		for (CPUBoat c : CPUs){
+			c.render(game.batch, pb.getInGamePos());
+			c.move(deltaTime);
+			c.update(deltaTime);
+		}
+
 		Iterator<Obstacle> obstacleIterator = obstacleList.iterator(); 	// Create iterator for iterating over the obstacles
 		
 		collider = null;
@@ -132,7 +146,7 @@ public class GameScreen extends ScreenAdapter {
 			if (renderPos.x > Gdx.graphics.getWidth() +30||
 				renderPos.x + o.size.x < -30 ||
 				// renderPos.y > Gdx.graphics.getHeight() +10 ||
-				renderPos.y + o.size.y < -30) {
+				renderPos.y + o.size.y < -100) {
 					obstacleIterator.remove();	// If the obstacles is off the screen (apart from the top) delete it
 			} else {
 				o.render(game.batch, pb.getInGamePos());	// If the obstacle is not off the screen, render it
@@ -141,6 +155,8 @@ public class GameScreen extends ScreenAdapter {
 				if (pb.checkCollision(o)) {	// See if the players boat is colliding with the obstacle
 					collider = o;
 				}
+
+				for (CPUBoat c : CPUs) {c.checkCollision(o);}
 			}
 		}
 		if (obstacleList.size() < maxObstacles) {
