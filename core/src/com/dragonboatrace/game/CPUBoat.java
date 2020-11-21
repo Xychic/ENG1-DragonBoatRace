@@ -5,12 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 public class CPUBoat extends Boat{
     
     int difficulty;
-    Vector2 laneBarriers, startPos;
+    Vector2 startPos;
 
-    public CPUBoat(BoatType boatType, Vector2 pos, int difficulty, Vector2 laneBarriers) {
-        super(boatType, pos);
+    public CPUBoat(BoatType boatType, Vector2 pos, int difficulty, Tuple<Float, Float> laneBounds) {
+        super(boatType, pos, laneBounds);
         this.difficulty = difficulty;
-        this.laneBarriers = laneBarriers;
         this.startPos = pos;
     }
 
@@ -24,6 +23,15 @@ public class CPUBoat extends Boat{
 
         if (this.currentHealth <= 0) {
             this.vel = new Vector2();
+        }
+
+        if (this.penaltyResetDelay <= 0) {
+            if (this.pos.x < this.laneBounds.a || this.laneBounds.b < this.pos.x) { // Boat has left the lane
+                this.timePenalties += 5000;
+                this.penaltyResetDelay = 5;
+            }
+        } else {
+            this.penaltyResetDelay -= deltaTime;
         }
     }
 

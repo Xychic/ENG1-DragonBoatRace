@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 public class PlayerBoat extends Boat {
     Vector2 startPos;
 
-    public PlayerBoat(BoatType boatType, Vector2 pos) {
-        super(boatType, pos);
+    public PlayerBoat(BoatType boatType, Vector2 pos, Tuple<Float, Float> laneBounds) {
+        super(boatType, pos, laneBounds);
         startPos = pos;
         System.out.println(startPos);
     }
@@ -31,6 +31,14 @@ public class PlayerBoat extends Boat {
             }
         } if (this.stamina < this.maxStamina) {
             this.stamina += 1 / (60 * deltaTime);
+        }
+        if (this.penaltyResetDelay <= 0) {
+            if (this.pos.x < this.laneBounds.a || this.laneBounds.b < this.pos.x) { // Boat has left the lane
+                this.timePenalties += 5000;
+                this.penaltyResetDelay = 5;
+            }
+        } else {
+            this.penaltyResetDelay -= deltaTime;
         }
     }
 
