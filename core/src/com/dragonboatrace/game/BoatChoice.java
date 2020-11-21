@@ -31,9 +31,11 @@ public class BoatChoice extends ScreenAdapter{
                             xpos += 1;
                         }
                         CPUs[i] = new CPUBoat(BoatType.NORMAL, new Vector2( (int) (0.5 + xpos)*(Gdx.graphics.getWidth()/laneCount) ,10), 0 ,new Vector2(0,0));
+                        CPUs[i].saveStartPos();
                     }
 
                     PlayerBoat pb = new PlayerBoat(BoatType.FAST, new Vector2(Gdx.graphics.getWidth()/2, 10));	// Creating the players boat
+                    pb.saveStartPos();
 
                     game.setScreen(new GameScreen(game, 0, CPUs, pb));
                 }

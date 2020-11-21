@@ -18,6 +18,11 @@ public class midRoundScreen extends ScreenAdapter{
         this.CPUs = CPUs;
         this.round = round;
         this.pb = playerBoat;
+
+        for (CPUBoat c : this.CPUs) {
+            c.resetPos();
+        }
+        this.pb.resetPos();
     }
 
     @Override

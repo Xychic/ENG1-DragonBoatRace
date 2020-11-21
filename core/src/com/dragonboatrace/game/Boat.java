@@ -15,6 +15,8 @@ public abstract class Boat extends Entity{
     protected float distanceTravelled; //distance travelled in one round
     protected Long totalTime;
 
+    protected Vector2 startPos;
+
     public Boat(BoatType boatType, Vector2 pos) {
         super(pos.cpy(), boatType.getSize(), boatType.getWeight());
         this.boatType = boatType;
@@ -92,6 +94,16 @@ public abstract class Boat extends Entity{
             //returns the finish time in minutes:seconds
             return String.valueOf((int) ((this.finishTime / 1000) / 60)) + ":" + String.valueOf((int) ((this.finishTime / 1000) % 60));
         }
+    }
+
+    public void saveStartPos() {
+        this.startPos = this.pos.cpy();
+    }
+
+    public void resetPos() {
+        this.pos = this.startPos.cpy();
+        this.inGamePos = this.startPos.cpy();
+        this.vel = new Vector2();
     }
 
     public boolean isFinished(int finishLine){return this.distanceTravelled > finishLine;}
