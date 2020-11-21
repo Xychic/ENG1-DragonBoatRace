@@ -62,13 +62,21 @@ public abstract class Boat extends Entity{
         this.boatType.getImage().dispose();
     }
 
-    public void checkFinished(int finishLine, long startTime){
+    public boolean checkFinished(int finishLine , long startTime){
+        //finish line is the pixels from the start that the boats have to travel
+        //start time is the system time when the race started
         if (this.isFinished(finishLine)){
             this.setFinishTime(startTime);
+            return true;
         }
+        return false;
     }
-    
-    public String getFinishTime() {
+    public long getFinishTimeLong(){
+        return finishTime;
+
+    }
+
+    public String getFinishTimeString() {
         if (this.finishTime == 0){
             //calculate an estimate dnf is just temporary?
             return "DNF";
