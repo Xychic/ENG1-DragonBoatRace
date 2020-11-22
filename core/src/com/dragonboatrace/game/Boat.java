@@ -117,4 +117,7 @@ public abstract class Boat extends Entity{
     public float getHealth() {return this.currentHealth;}
     public float getStamina() {return this.stamina;}
     public float getDistanceTravelled() {return this.distanceTravelled;}
+    public BoatType getType() {return this.boatType;}
+    public float getMaxStamina() {return this.maxStamina;}
+    public float getCurrentSpeed() {return this.vel.y;}
 }
