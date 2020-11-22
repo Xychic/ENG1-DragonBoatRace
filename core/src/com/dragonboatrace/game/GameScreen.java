@@ -21,9 +21,10 @@ public class GameScreen extends ScreenAdapter {
 	DragonBoatRace game;
 	CPUBoat[] CPUs;
 	PlayerBoat pb;
-	Obstacle finishLineObstacle;
-	int finishLine;
+	Obstacle finishLineObstacle; 	//the finish line that appears on screen
+	int finishLine;					//the y position in the game that the players have to pass to finish
 	BitmapFont font;
+	int round;
 
     public GameScreen(DragonBoatRace game, int round, CPUBoat[] CPUs, PlayerBoat playerBoat){
 		this.game = game;
@@ -31,22 +32,24 @@ public class GameScreen extends ScreenAdapter {
 		this.CPUs = CPUs;
 		this.pb = playerBoat;
 		this.finishLineObstacle = new Obstacle(ObstacleType.FINISHLINE, new Vector2(0,0), new Vector2(0,0));
+		this.round = round;
 
+		//this determines how long every leg of the race is
 		switch(round){
 			case 0:
-				finishLine = 2000;
+				finishLine = 20000;
 				break;
 			case 1:
-				finishLine = 2400;
+				finishLine = 24000;
 				break;
 			case 2:
-				finishLine = 2800;
+				finishLine = 28000;
 				break;
 			case 3:
-				finishLine = 3200;
+				finishLine = 32000;
 				break;
 			case 4:
-				finishLine = 3600;
+				finishLine = 36000;
 				break;
 			default:
 				finishLine = 1000;
@@ -55,13 +58,12 @@ public class GameScreen extends ScreenAdapter {
     }
 	
 	Texture img;
-	
 	ArrayList<Obstacle> obstacleList;
 	ObstacleType[] obstacles;
 	Obstacle collider;
 	LaneMarker[] laneMarkers;
 	Background[] backgrounds;
-	int round, maxObstacles, laneCount;
+	int maxObstacles, laneCount;
 	Texture tmp;
 	long raceStartTime;
 
@@ -97,7 +99,6 @@ public class GameScreen extends ScreenAdapter {
 
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
 
-		this.round = round;		// temp hard coding, will be moved to a screen.
 		switch (round) {	// The max number of obstacles changes from round to round
 			case 0:
 				maxObstacles = 30;
@@ -179,6 +180,10 @@ public class GameScreen extends ScreenAdapter {
 		pb.render(game.batch);	// Render the boat
 		pb.move(deltaTime);	// Move the boat based on player inputs
 		pb.update(deltaTime);	// Update the position of the boat 
+
+		if (pb.currentHealth == 0){
+			game.setScreen(new BoatDeathScreen(game));
+		}
 
 		for (CPUBoat c : CPUs){
 			c.render(game.batch, pb.getInGamePos());
@@ -288,13 +293,11 @@ public class GameScreen extends ScreenAdapter {
 	}
 
 	private void checkAllBoatsForFinished(){
-
 		
-		
-		finishLineObstacle.pos.y = finishLine;
+		finishLineObstacle.pos.y = finishLine; //this will make the finish line appear on the screen
 
 		for (CPUBoat cpu : CPUs){
-			cpu.checkFinished(finishLine, this.raceStartTime);
+			cpu.checkFinished(finishLine, this.raceStartTime); //this checks every cpu to see if it's finished, if it has it'll update their finishing time
 		}
 
 		if(pb.checkFinished(finishLine, this.raceStartTime)){
@@ -302,20 +305,19 @@ public class GameScreen extends ScreenAdapter {
 			//send every boats finishing time to the next screen along w the current round
 			
 			for (CPUBoat cpu : CPUs){
+				//if a cpu hasn't finished the race, it will estimate when it would have finished based on the distance it managed to travel in the time it took the player to win
 				if(!cpu.checkFinished(finishLine, this.raceStartTime)){
 					long timeEstimate = (long) ((pb.finishTime)* (finishLine/cpu.inGamePos.y));
-
-					System.out.println(timeEstimate);
-					System.out.println(" ");
 					cpu.setFinishTime(timeEstimate);
 				}
 			}
 
-			if (round != 4){
+			if (round != 3){
 				//go to mid round screen
 				game.setScreen(new midRoundScreen(game, round, CPUs, pb));
 			}
 			else{
+				//go to final results screen
 				game.setScreen(new Finale(game, CPUs, pb));
 			}
 				

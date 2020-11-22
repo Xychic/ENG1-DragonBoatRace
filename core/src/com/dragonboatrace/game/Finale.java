@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 
 public class Finale extends ScreenAdapter{
     
@@ -26,7 +27,7 @@ public class Finale extends ScreenAdapter{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new TitleScreen(new DragonBoatRace()));
+                    game.setScreen(new TitleScreen(game));
                 }
                 return true;
             }
@@ -38,10 +39,35 @@ public class Finale extends ScreenAdapter{
         Gdx.gl.glClearColor(0, 0, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.font.draw(game.batch, "You came #"+playerPositions[1]+" in the dragon boat race! Your total time was " + pb.getTotalTimeString(), Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
-        game.font.draw(game.batch, "Congratulations!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .4f);
-        game.font.draw(game.batch, "Press Space to restart!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .3f);
+        if (playerPositions[1] > 3){
+            game.batch.draw(new Texture("menus/didnt qualify.png"), 0 , 0);
+            game.font.draw(game.batch, "You didn't win a medal :(", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
+        }
+        else{
+            game.batch.draw(new Texture("menus/victory.png"), 0 , 0);
+            
+            switch (playerPositions[1]){
+                case 1:
+                    game.font.draw(game.batch, "Congratulations you won a Gold medal!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
+                    break;
+                case 2:
+                    game.font.draw(game.batch, "Congratulations you won a Silver medal!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
+                    break;
+                case 3:
+                    game.font.draw(game.batch, "Congratulations you won a Bronze medal!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
+                    break;
+                default:
+                    break;
+            }
+            
+            
+        }
+        game.font.draw(game.batch, "You came #"+playerPositions[1]+" in the dragon boat race! Your total time was " + pb.getTotalTimeString(), Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .5f);
+        game.font.draw(game.batch, "Press Space to restart!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
         game.batch.end();
+        
+        
+        
     }
 
     public int[] getPlayerPositions() {

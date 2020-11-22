@@ -23,6 +23,9 @@ public class TitleScreen extends ScreenAdapter {
                 if (keyCode == Input.Keys.SPACE) {
                     game.setScreen(new BoatChoice(game));
                 }
+                if( keyCode == Input.Keys.ESCAPE) {
+                    Gdx.app.exit();
+                }
                 return true;
             }
         });
@@ -34,8 +37,9 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.batch.draw(new Texture("menus/title.png"), 0 , 0);
-        game.font.draw(game.batch, "Title Screen!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
-        game.font.draw(game.batch, "Press space to choose a boat.", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .25f);
+        game.font.draw(game.batch, "Title Screen!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .5f);
+        game.font.draw(game.batch, "Press SPACE to choose a boat.", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
+        game.font.draw(game.batch, "Press ESC to exit.", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
         game.batch.end();
     }
 

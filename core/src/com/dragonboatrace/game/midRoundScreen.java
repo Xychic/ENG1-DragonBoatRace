@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 
 public class midRoundScreen extends ScreenAdapter{
     
@@ -63,18 +64,20 @@ public class midRoundScreen extends ScreenAdapter{
 
 
         game.batch.begin();
-        game.font.draw(game.batch, "You came #"+ playerPositions[0] +" in that leg! You took " + pb.getFinishTimeString() , Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
-        game.font.draw(game.batch, "Overall you are #"+ playerPositions[1] +" in the dragon boat race!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .4f);
+        game.batch.draw(new Texture("menus/between rounds.png"), 0 , 0);
+        
+        game.font.draw(game.batch, "You came #"+ playerPositions[0] +" in that leg! You took " + pb.getFinishTimeString() , Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .5f);
+        game.font.draw(game.batch, "Overall you are #"+ playerPositions[1] +" in the dragon boat race!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
 
         if(round != 3 || playerPositions[1] < 4){
             if(round != 3){
-                game.font.draw(game.batch, "You can progress to the next round!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .3f);
+                game.font.draw(game.batch, "You can progress to the next round!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
             }
             else{
-                game.font.draw(game.batch, "You can progress to the finale!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .3f);
+                game.font.draw(game.batch, "You can progress to the finale!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
             }
             
-            game.font.draw(game.batch, "Press space to continue!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .2f);
+            game.font.draw(game.batch, "Press space to continue!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .2f);
         }
         
         game.batch.end();
@@ -85,9 +88,7 @@ public class midRoundScreen extends ScreenAdapter{
         //element 1 of the output is the players position in all races
 
         int[] output = {1,1};
-        System.out.println("pb Total Time" + pb.totalTime + " pb Finish Time" + pb.finishTime );
         for (CPUBoat CPU : CPUs){
-            System.out.println("CPU Total Time" + CPU.totalTime + " CPU Finish Time" + CPU.finishTime );
             if(CPU.finishTime < pb.finishTime){
                 output[0] += 1;
             }

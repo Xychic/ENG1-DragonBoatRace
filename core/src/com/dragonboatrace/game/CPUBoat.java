@@ -15,16 +15,20 @@ public class CPUBoat extends Boat{
 
     @Override
     public void move(float deltaTime) {
+
+        //basically they just move in a straight line until they break 
         if (this.vel.y < this.currentMaxSpeed) {
             this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
         } else if (this.vel.y > this.currentMaxSpeed) {
             this.vel.add(0, -((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
         }
 
+        //this part stops them if they break
         if (this.currentHealth <= 0) {
             this.vel = new Vector2();
         }
 
+        //this part adds on a penalty if they pass the barrier
         if (this.penaltyResetDelay <= 0) {
             if (this.pos.x < this.laneBounds.a || this.laneBounds.b < this.pos.x) { // Boat has left the lane
                 this.timePenalties += 5000;
@@ -36,6 +40,7 @@ public class CPUBoat extends Boat{
     }
 
     //this method isnt used yet bc it sucks, I was going to use it to decide where to move the cpus intelligently but that's too hard so might just make them move randomly 
+    //please ignore this method
     public void decideMovement(float deltaTime, Obstacle[] obstacles){
         
         Obstacle closestObstacle = obstacles[0];
@@ -67,6 +72,7 @@ public class CPUBoat extends Boat{
         }
     }
 
+    //this is used for debugging, it tells you where they are on screen and where they are relative to the start line
     public String getCurrentPos(){
         return this.pos.toString() + " , " + this.inGamePos.toString();
     }
