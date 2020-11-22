@@ -281,7 +281,10 @@ public class GameScreen extends ScreenAdapter {
 				finishLine = 2800;
 				break;
 			case 3:
-				finishLine = 3000;
+				finishLine = 3200;
+				break;
+			case 4:
+				finishLine = 3600;
 				break;
 			default:
 				finishLine = 1000;
