@@ -8,8 +8,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen extends ScreenAdapter {
@@ -18,6 +22,8 @@ public class GameScreen extends ScreenAdapter {
 	CPUBoat[] CPUs;
 	PlayerBoat pb;
 	Obstacle finishLineObstacle;
+	int finishLine;
+	BitmapFont font;
 
     public GameScreen(DragonBoatRace game, int round, CPUBoat[] CPUs, PlayerBoat playerBoat){
 		this.game = game;
@@ -68,9 +74,6 @@ public class GameScreen extends ScreenAdapter {
 			backgrounds[i] = new Background(new Vector2(Gdx.graphics.getWidth()/2 , i*270));
 		}
 
-		
-
-
 		obstacleList = new ArrayList<Obstacle>();	// Creating the empty arrayList of obstacles
 
 		this.round = round;		// temp hard coding, will be moved to a screen.
@@ -91,6 +94,32 @@ public class GameScreen extends ScreenAdapter {
 				maxObstacles = 0;
 				break;
 		}
+
+		switch(round){
+			case 0:
+				finishLine = 20000;
+				break;
+			case 1:
+				finishLine = 24000;
+				break;
+			case 2:
+				finishLine = 28000;
+				break;
+			case 3:
+				finishLine = 30000;
+				break;
+			default:
+				finishLine = 1000;
+				break;
+		}
+
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/FreeMono.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 24;
+		parameter.color = Color.WHITE;
+		parameter.borderColor = Color.BLACK;
+		parameter.borderWidth = 1;
+        this.font = generator.generateFont(parameter);
 	}
 
 	public void render(float delta) {
@@ -121,7 +150,7 @@ public class GameScreen extends ScreenAdapter {
 			collider != null ? collider.getType().getID() : "null",
 			pb.timePenalties,
 			pb.penaltyResetDelay);
-		game.font.draw(game.batch, debugString, 10, Gdx.graphics.getHeight() - 10);
+		// game.font.draw(game.batch, debugString, 10, Gdx.graphics.getHeight() - 10);
 		game.batch.end();
 
 		finishLineObstacle.render(game.batch, pb.getInGamePos());
@@ -166,6 +195,8 @@ public class GameScreen extends ScreenAdapter {
 		if (obstacleList.size() < maxObstacles) {
 			obstacleList.add(spawnObstacle());
 		}
+
+		this.showHUD();
 	}
 
 	private Obstacle spawnObstacle() {
@@ -237,26 +268,6 @@ public class GameScreen extends ScreenAdapter {
 
 	private void checkAllBoatsForFinished(){
 
-		int finishLine;
-
-		switch(round){
-			case 0:
-				finishLine = 20000;
-				break;
-			case 1:
-				finishLine = 24000;
-				break;
-			case 2:
-				finishLine = 28000;
-				break;
-			case 3:
-				finishLine = 30000;
-				break;
-			default:
-				finishLine = 1000;
-				break;
-		}
-		
 		finishLineObstacle.pos.y = finishLine;
 
 		for (CPUBoat cpu : CPUs){
@@ -283,6 +294,165 @@ public class GameScreen extends ScreenAdapter {
 			}
 				
 		}
+	}
+
+	private void showHUD() {
+		// Finish line progress
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.DARK_GRAY);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.96f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.LIGHT_GRAY);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.96f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth() * (pb.getDistanceTravelled() / this.finishLine),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Line);
+		this.game.shapeRenderer.setColor(Color.BLACK);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.96f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.batch.begin();
+		this.font.draw(
+			this.game.batch, 
+			"Distance", 
+			0.022f * Gdx.graphics.getWidth(),
+			0.975f * Gdx.graphics.getHeight());
+		this.game.batch.end();
+
+
+		// Health Bar
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.valueOf("#800f0f"));
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.92f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.RED);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.92f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth() * (pb.getHealth()/ pb.getType().getMaxHealth()),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Line);
+		this.game.shapeRenderer.setColor(Color.BLACK);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.92f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.batch.begin();
+		this.font.draw(
+			this.game.batch, 
+			"Health", 
+			0.022f * Gdx.graphics.getWidth(),
+			0.935f * Gdx.graphics.getHeight());
+		this.game.batch.end();
+
+		// Stamina Bar
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.NAVY);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.88f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.BLUE);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.88f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth() * (pb.getStamina()/ pb.getMaxStamina()),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Line);
+		this.game.shapeRenderer.setColor(Color.BLACK);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.88f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.batch.begin();
+		this.font.draw(
+			this.game.batch, 
+			"Stamina", 
+			0.022f * Gdx.graphics.getWidth(),
+			0.895f * Gdx.graphics.getHeight());
+		this.game.batch.end();
+
+		// Speed Bar
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.valueOf("#838510"));
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.84f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Filled);
+		this.game.shapeRenderer.setColor(Color.YELLOW);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.84f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth() * Math.min((pb.getCurrentSpeed()/ pb.getType().getSpeed()), 1),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.shapeRenderer.begin(ShapeType.Line);
+		this.game.shapeRenderer.setColor(Color.BLACK);
+		this.game.shapeRenderer.rect(
+			0.02f * Gdx.graphics.getWidth(),
+			0.84f * Gdx.graphics.getHeight(),
+			0.2f * Gdx.graphics.getWidth(),
+			0.02f * Gdx.graphics.getHeight()
+		);
+		this.game.shapeRenderer.end();
+
+		this.game.batch.begin();
+		this.font.draw(
+			this.game.batch, 
+			"Speed", 
+			0.022f * Gdx.graphics.getWidth(),
+			0.857f * Gdx.graphics.getHeight());
+		this.game.batch.end();
 	}
 
 	private Boat checkWinner() {

@@ -22,10 +22,10 @@ public class PlayerBoat extends Boat {
             } else if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
                 this.vel.add((1 * this.boatType.getHandling() / (deltaTime * 60)), 0);
                 this.stamina -= 2 / (60 *deltaTime);
-            } if (Gdx.input.isKeyPressed(Keys.UP) && (this.vel.y < this.currentMaxSpeed) || (this.vel.y < -this.currentMaxSpeed)) {
+            } if (Gdx.input.isKeyPressed(Keys.UP) && (this.vel.y < this.currentMaxSpeed) || (this.vel.y < 0)) {
                 this.vel.add(0, ((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
                 this.stamina -= 2 / (60 *deltaTime);
-            } else if (Gdx.input.isKeyPressed(Keys.DOWN) && (this.vel.y > -(this.currentMaxSpeed)) || this.vel.y > this.currentMaxSpeed) {
+            } else if (Gdx.input.isKeyPressed(Keys.DOWN) && (this.vel.y > 0) || this.vel.y > this.currentMaxSpeed) {
                 this.vel.add(0, -((this.boatType.getAcceleration() / 100) / (deltaTime * 60)));
                 this.stamina -= 2 / (60 *deltaTime);
             }
@@ -39,7 +39,8 @@ public class PlayerBoat extends Boat {
             }
         } else {
             this.penaltyResetDelay -= deltaTime;
-        }
+        } if (this.currentHealth < 0) {this.currentHealth = 0;}
+        if (this.vel.y < 0) {this.vel.y = 0;}
     }
 
     @Override
