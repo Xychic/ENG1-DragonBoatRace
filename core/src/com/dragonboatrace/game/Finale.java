@@ -38,7 +38,7 @@ public class Finale extends ScreenAdapter{
         Gdx.gl.glClearColor(0, 0, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.font.draw(game.batch, "You came #"+playerPositions[1]+" in the dragon boat race!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
+        game.font.draw(game.batch, "You came #"+playerPositions[1]+" in the dragon boat race! Your total time was " + pb.getTotalTimeString(), Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
         game.font.draw(game.batch, "Congratulations!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .4f);
         game.font.draw(game.batch, "Press Space to restart!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .3f);
         game.batch.end();

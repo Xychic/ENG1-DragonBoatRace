@@ -63,7 +63,7 @@ public class midRoundScreen extends ScreenAdapter{
 
 
         game.batch.begin();
-        game.font.draw(game.batch, "You came #"+ playerPositions[0] +" in that race!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
+        game.font.draw(game.batch, "You came #"+ playerPositions[0] +" in that leg! You took " + pb.getFinishTimeString() , Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .5f);
         game.font.draw(game.batch, "Overall you are #"+ playerPositions[1] +" in the dragon boat race!", Gdx.graphics.getWidth() * .5f, Gdx.graphics.getHeight() * .4f);
 
         if(round != 3 || playerPositions[1] < 4){

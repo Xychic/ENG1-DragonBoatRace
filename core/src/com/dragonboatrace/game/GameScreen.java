@@ -31,6 +31,27 @@ public class GameScreen extends ScreenAdapter {
 		this.CPUs = CPUs;
 		this.pb = playerBoat;
 		this.finishLineObstacle = new Obstacle(ObstacleType.FINISHLINE, new Vector2(0,0), new Vector2(0,0));
+
+		switch(round){
+			case 0:
+				finishLine = 2000;
+				break;
+			case 1:
+				finishLine = 2400;
+				break;
+			case 2:
+				finishLine = 2800;
+				break;
+			case 3:
+				finishLine = 3200;
+				break;
+			case 4:
+				finishLine = 3600;
+				break;
+			default:
+				finishLine = 1000;
+				break;
+		}
     }
 	
 	Texture img;
@@ -268,28 +289,7 @@ public class GameScreen extends ScreenAdapter {
 
 	private void checkAllBoatsForFinished(){
 
-		int finishLine;
-
-		switch(round){
-			case 0:
-				finishLine = 2000;
-				break;
-			case 1:
-				finishLine = 2400;
-				break;
-			case 2:
-				finishLine = 2800;
-				break;
-			case 3:
-				finishLine = 3200;
-				break;
-			case 4:
-				finishLine = 3600;
-				break;
-			default:
-				finishLine = 1000;
-				break;
-		}
+		
 		
 		finishLineObstacle.pos.y = finishLine;
 
@@ -479,10 +479,6 @@ public class GameScreen extends ScreenAdapter {
 			0.022f * Gdx.graphics.getWidth(),
 			0.857f * Gdx.graphics.getHeight());
 		this.game.batch.end();
-	}
-
-	private Boat checkWinner() {
-		return null;	// TODO will return the winning boat, null if not over yet. 
 	}
 	
 	@Override

@@ -95,7 +95,23 @@ public abstract class Boat extends Entity{
         }
         else{
             //returns the finish time in minutes:seconds
-            return String.valueOf((int) ((this.finishTime / 1000) / 60)) + ":" + String.valueOf((int) ((this.finishTime / 1000) % 60));
+            if (((this.finishTime / 1000) / 60) == 0){
+                return String.valueOf((int) ((this.finishTime / 1000) % 60)) + " Seconds";
+            }
+            return String.valueOf((int) ((this.finishTime / 1000) / 60)) + " Minutes and " + String.valueOf((int) ((this.finishTime / 1000) % 60)) + " Seconds";
+        }
+    }
+
+    public String getTotalTimeString() {
+        if (this.totalTime == 0){
+            return "DNF";
+        }
+        else{
+            //returns the finish time in minutes:seconds
+            if (((this.totalTime / 1000) / 60) == 0){
+                return String.valueOf((int) ((this.totalTime / 1000) % 60)) + " Seconds";
+            }
+            return String.valueOf((int) ((this.totalTime / 1000) / 60)) + " Minutes and " + String.valueOf((int) ((this.totalTime / 1000) % 60)) + " Seconds";
         }
     }
 
