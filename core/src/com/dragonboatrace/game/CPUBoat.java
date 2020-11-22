@@ -76,7 +76,7 @@ public class CPUBoat extends Boat{
         //this will move all the cpu boats up to the finish line and reset all of their round specific stats
 
         pos = startPos;
-        inGamePos.y = y;
+        inGamePos.y = 0;
         vel = new Vector2();
         stamina = maxStamina; 
         distanceTravelled = 0;

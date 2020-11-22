@@ -241,16 +241,16 @@ public class GameScreen extends ScreenAdapter {
 
 		switch(round){
 			case 0:
-				finishLine = 20000;
+				finishLine = 2000;
 				break;
 			case 1:
-				finishLine = 24000;
+				finishLine = 2400;
 				break;
 			case 2:
-				finishLine = 28000;
+				finishLine = 2800;
 				break;
 			case 3:
-				finishLine = 30000;
+				finishLine = 3000;
 				break;
 			default:
 				finishLine = 1000;
@@ -269,17 +269,20 @@ public class GameScreen extends ScreenAdapter {
 			
 			for (CPUBoat cpu : CPUs){
 				if(!cpu.checkFinished(finishLine, this.raceStartTime)){
-					long timeEstimate = (long) ((System.currentTimeMillis() - this.raceStartTime)* (finishLine/cpu.pos.x));
+					long timeEstimate = (long) ((pb.finishTime)* (finishLine/cpu.inGamePos.y));
+
+					System.out.println(timeEstimate);
+					System.out.println(" ");
 					cpu.setFinishTime(timeEstimate);
 				}
 			}
 
-			if (round != 3){
+			if (round != 4){
 				//go to mid round screen
 				game.setScreen(new midRoundScreen(game, round, CPUs, pb));
 			}
 			else{
-				game.setScreen(new Finale(game, CPUs));
+				game.setScreen(new Finale(game, CPUs, pb));
 			}
 				
 		}

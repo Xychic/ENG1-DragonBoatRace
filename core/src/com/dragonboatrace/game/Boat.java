@@ -13,7 +13,7 @@ public abstract class Boat extends Entity{
     protected long finishTime;
     protected boolean finished = false;
     protected float distanceTravelled; //distance travelled in one round
-    protected Long totalTime;
+    protected long totalTime;
     protected Tuple<Float, Float> laneBounds;
 
     protected Vector2 startPos;
