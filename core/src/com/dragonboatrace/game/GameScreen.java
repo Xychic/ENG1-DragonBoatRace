@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.ESCAPE) {
-					game.dispose();
+		    game.dispose();
                     System.exit(0);;
                 }
                 return true;
