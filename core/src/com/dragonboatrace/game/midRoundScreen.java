@@ -20,7 +20,8 @@ public class midRoundScreen extends ScreenAdapter{
         this.CPUs = CPUs;
         this.round = round;
         this.pb = playerBoat;
-        playerPositions = getPlayerPositions();
+        this.game.toDispose.add(this);
+        this.playerPositions = getPlayerPositions();
 
         // for (CPUBoat c : this.CPUs) {
         //     c.resetPos();
@@ -96,8 +97,6 @@ public class midRoundScreen extends ScreenAdapter{
         }
         return output;
     }
-
-    
 
     @Override
     public void hide() {

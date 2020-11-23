@@ -28,6 +28,7 @@ public class BoatChoice extends ScreenAdapter {
         this.boatScale = 7;
         this.BoatTypes = new ArrayList<BoatType>(EnumSet.allOf(BoatType.class));
         this.background = new Texture("menus/boatSelection.png");
+        this.game.toDispose.add(this);
 
         boats = new Boat[this.BoatTypes.size()];
         for (int i=0; i<this.BoatTypes.size(); i++) {
@@ -157,5 +158,10 @@ public class BoatChoice extends ScreenAdapter {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+    }
+
+    public void dispose() {
+        this.background.dispose();
+        this.font.dispose();
     }
 }

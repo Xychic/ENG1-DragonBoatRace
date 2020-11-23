@@ -1,10 +1,8 @@
 package com.dragonboatrace.game;
 
-import java.io.File;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -37,21 +35,22 @@ public class Background extends Entity {
     }
 
     private void updateTexture() {
-        this.img = allTextures[(int)(Math.random() * 4)];
+        this.img = this.allTextures[(int)(Math.random() * allTextures.length)];
         this.size = new Vector2(this.img.getWidth(), this.img.getHeight());
     }
 
     private void loadTextures() {
-        File folder = new File("Backgrounds");
-        File[] listOfFiles = folder.listFiles();
-        allTextures = new Texture[listOfFiles.length];
-        for (int i=0; i<listOfFiles.length;i++) {
-            allTextures[i] = new Texture(String.format("Backgrounds/%s", listOfFiles[i].getName()));
+        String[] fileNames = Gdx.files.internal("Backgrounds/catalog.txt").readString().split("\n");
+        this.allTextures = new Texture[fileNames.length];
+        for (int i=0; i<fileNames.length;i++) {
+            this.allTextures[i] = new Texture(String.format("Backgrounds/%s", fileNames[i]));
         }
     }
 
     public void dispose() {
-        this.img.dispose();
+        for (Texture t : this.allTextures) {
+            t.dispose();
+        }
     }
 
     public void collide(Obstacle o) {}

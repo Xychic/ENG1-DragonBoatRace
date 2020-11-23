@@ -69,10 +69,6 @@ public abstract class Boat extends Entity{
         super.update(deltaTime);
     }
 
-    public void dispose() {
-        this.boatType.getImage().dispose();
-    }
-
     public boolean checkFinished(int finishLine , long startTime){
         //finish line is the pixels from the start that the boats have to travel
         //start time is the system time when the race started
@@ -128,6 +124,10 @@ public abstract class Boat extends Entity{
         this.totalTime += finishTime;
         this.finishTime = (long) 0;
         this.finished = false;
+    }
+
+    public void dispose() {
+        this.boatType.getImage().dispose();
     }
 
     public boolean isFinished(int finishLine){return this.distanceTravelled > finishLine;}
