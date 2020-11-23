@@ -28,15 +28,17 @@ public class Background extends Entity {
         batch.begin();
         batch.draw(
             this.img, 
-            (this.pos.x - this.size.x / 2), 
-            (this.pos.y-relPos.y) 
+            (0), 
+            (this.pos.y-relPos.y),
+            Gdx.graphics.getWidth(),
+            this.size.y
             );
         batch.end();
     }
 
     private void updateTexture() {
         this.img = this.allTextures[(int)(Math.random() * allTextures.length)];
-        this.size = new Vector2(Gdx.graphics.getWidth(), this.img.getHeight());
+        this.size = new Vector2(this.img.getWidth(), this.img.getHeight());
     }
 
     private void loadTextures() {
