@@ -24,6 +24,7 @@ public class TitleScreen extends ScreenAdapter {
                     game.setScreen(new BoatChoice(game));
                 }
                 if( keyCode == Input.Keys.ESCAPE) {
+                    game.dispose();
                     Gdx.app.exit();
                 }
                 return true;
