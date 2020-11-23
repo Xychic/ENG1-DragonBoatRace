@@ -57,15 +57,4 @@ public class PlayerBoat extends Boat {
             this.inGamePos.add(0, deltaY);
         }
     }
-
-    public void moveToStart(){
-        inGamePos.y = 0;
-        pos = startPos;
-        vel = new Vector2();
-        stamina = maxStamina; 
-        distanceTravelled = 0;
-        totalTime += finishTime;
-        finishTime = (long) 0;
-        finished = false;
-    }
 }

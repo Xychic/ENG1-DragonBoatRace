@@ -119,10 +119,15 @@ public abstract class Boat extends Entity{
         this.startPos = this.pos.cpy();
     }
 
-    public void resetPos() {
-        this.pos = this.startPos.cpy();
-        this.inGamePos = this.startPos.cpy();
+    public void moveToStart(){
+        this.inGamePos = startPos.cpy();
+        this.pos = startPos.cpy();
         this.vel = new Vector2();
+        this.stamina = maxStamina; 
+        this.distanceTravelled = 0;
+        this.totalTime += finishTime;
+        this.finishTime = (long) 0;
+        this.finished = false;
     }
 
     public boolean isFinished(int finishLine){return this.distanceTravelled > finishLine;}
