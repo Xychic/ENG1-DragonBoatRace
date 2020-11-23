@@ -31,7 +31,7 @@ public class GameScreen extends ScreenAdapter {
 		this.create(round);
 		this.CPUs = CPUs;
 		this.pb = playerBoat;
-        this.game.toDispose.add(this);
+        	this.game.toDispose.add(this);
 		this.finishLineObstacle = new Obstacle(ObstacleType.FINISHLINE, new Vector2(0,0), new Vector2(0,0));
 		this.round = round;
     }
@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.ESCAPE) {
-					game.dispose();
+		    game.dispose();
                     System.exit(0);;
                 }
                 return true;

@@ -28,8 +28,10 @@ public class Background extends Entity {
         batch.begin();
         batch.draw(
             this.img, 
-            (this.pos.x - this.size.x / 2), 
-            (this.pos.y-relPos.y) 
+            (0), 
+            (this.pos.y-relPos.y),
+            Gdx.graphics.getWidth(),
+            this.size.y
             );
         batch.end();
     }
