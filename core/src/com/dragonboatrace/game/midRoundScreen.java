@@ -22,10 +22,10 @@ public class midRoundScreen extends ScreenAdapter{
         this.pb = playerBoat;
         playerPositions = getPlayerPositions();
 
-        for (CPUBoat c : this.CPUs) {
-            c.resetPos();
-        }
-        this.pb.resetPos();
+        // for (CPUBoat c : this.CPUs) {
+        //     c.resetPos();
+        // }
+        // this.pb.resetPos();
     }
 
     @Override
@@ -34,14 +34,12 @@ public class midRoundScreen extends ScreenAdapter{
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
+                    pb.moveToStart();
 
-
+                    for(CPUBoat CPU : CPUs){
+                        CPU.moveToStart();
+                    }
                     if(round != 3 || playerPositions[1] < 4){
-                        for(CPUBoat CPU : CPUs){
-                            CPU.moveToStart(pb.inGamePos.y);
-                        }
-    
-                        pb.moveToStart();
                         game.setScreen(new GameScreen(game, round + 1, CPUs, pb));
                     }
                     else{

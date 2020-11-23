@@ -33,28 +33,6 @@ public class GameScreen extends ScreenAdapter {
 		this.pb = playerBoat;
 		this.finishLineObstacle = new Obstacle(ObstacleType.FINISHLINE, new Vector2(0,0), new Vector2(0,0));
 		this.round = round;
-
-		//this determines how long every leg of the race is
-		switch(round){
-			case 0:
-				finishLine = 20000;
-				break;
-			case 1:
-				finishLine = 24000;
-				break;
-			case 2:
-				finishLine = 28000;
-				break;
-			case 3:
-				finishLine = 32000;
-				break;
-			case 4:
-				finishLine = 36000;
-				break;
-			default:
-				finishLine = 1000;
-				break;
-		}
     }
 	
 	Texture img;
@@ -101,16 +79,16 @@ public class GameScreen extends ScreenAdapter {
 
 		switch (round) {	// The max number of obstacles changes from round to round
 			case 0:
-				maxObstacles = 30;
+				maxObstacles = 10;
 				break;
 			case 1:
-				maxObstacles = 45;
+				maxObstacles = 15;
 				break;
 			case 2:
-				maxObstacles = 60;
+				maxObstacles = 20;
 				break;
 			case 3:
-				maxObstacles = 90;
+				maxObstacles = 30;
 				break;
 			default:
 				maxObstacles = 0;
@@ -174,25 +152,7 @@ public class GameScreen extends ScreenAdapter {
 			pb.penaltyResetDelay);
 		// game.font.draw(game.batch, debugString, 10, Gdx.graphics.getHeight() - 10);
 		game.batch.end();
-
-		finishLineObstacle.render(game.batch, pb.getInGamePos());
 		
-		pb.render(game.batch);	// Render the boat
-		pb.move(deltaTime);	// Move the boat based on player inputs
-		pb.update(deltaTime);	// Update the position of the boat 
-
-		if (pb.currentHealth == 0){
-			game.setScreen(new BoatDeathScreen(game));
-		}
-
-		for (CPUBoat c : CPUs){
-			c.render(game.batch, pb.getInGamePos());
-			c.move(deltaTime);
-			c.update(deltaTime);
-		}
-
-
-
 		checkAllBoatsForFinished();
 
 		Iterator<Obstacle> obstacleIterator = obstacleList.iterator(); 	// Create iterator for iterating over the obstacles
@@ -221,6 +181,23 @@ public class GameScreen extends ScreenAdapter {
 		if (obstacleList.size() < maxObstacles) {
 			obstacleList.add(spawnObstacle());
 		}
+
+		finishLineObstacle.render(game.batch, pb.getInGamePos());
+
+		pb.render(game.batch);	// Render the boat
+		pb.move(deltaTime);	// Move the boat based on player inputs
+		pb.update(deltaTime);	// Update the position of the boat 
+
+		if (pb.currentHealth == 0){
+			game.setScreen(new BoatDeathScreen(game));
+		}
+
+		for (CPUBoat c : CPUs){
+			c.render(game.batch, pb.getInGamePos());
+			c.move(deltaTime);
+			c.update(deltaTime);
+		}
+
 
 		this.showHUD();
 	}

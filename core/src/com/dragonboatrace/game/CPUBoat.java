@@ -76,19 +76,5 @@ public class CPUBoat extends Boat{
     public String getCurrentPos(){
         return this.pos.toString() + " , " + this.inGamePos.toString();
     }
-    
-    public void moveToStart(float y){
-        //float y is the position of the player boat
-        //this will move all the cpu boats up to the finish line and reset all of their round specific stats
-
-        pos = startPos;
-        inGamePos.y = 0;
-        vel = new Vector2();
-        stamina = maxStamina; 
-        distanceTravelled = 0;
-        totalTime += finishTime;
-        finishTime = 0;
-        finished = false;
-    }
 
 }
