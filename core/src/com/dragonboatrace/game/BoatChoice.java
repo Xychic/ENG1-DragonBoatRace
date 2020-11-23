@@ -1,6 +1,7 @@
 package com.dragonboatrace.game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 
@@ -66,7 +67,8 @@ public class BoatChoice extends ScreenAdapter {
                         if(i >= (laneCount-1)/2){
                             xpos += 1;
                         }
-                        BoatType cpuBoatType = BoatTypes.get((int) (Math.random() * BoatTypes.size()));
+                        ArrayList<BoatType> cpuBoatTypes = (ArrayList<BoatType>)BoatTypes.clone().remove(BoatTypes.get(selection)); // CPUs can't choose player boat
+                        BoatType cpuBoatType = cpuBoatTypes.get((int) (Math.random() * cpuBoatTypes.size()));
                         CPUs[i] = new CPUBoat(
                             cpuBoatType, 
                             new Vector2(
