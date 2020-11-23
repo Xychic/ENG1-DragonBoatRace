@@ -36,7 +36,7 @@ public class Background extends Entity {
 
     private void updateTexture() {
         this.img = this.allTextures[(int)(Math.random() * allTextures.length)];
-        this.size = new Vector2(this.img.getWidth(), this.img.getHeight());
+        this.size = new Vector2(Gdx.graphics.getWidth(), this.img.getHeight());
     }
 
     private void loadTextures() {

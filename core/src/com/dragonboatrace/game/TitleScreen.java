@@ -37,7 +37,7 @@ public class TitleScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(new Texture("menus/title.png"), 0 , 0);
+        game.batch.draw(new Texture("menus/title.png"), 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.font.draw(game.batch, "Title Screen!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .5f);
         game.font.draw(game.batch, "Press SPACE to choose a boat.", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
         game.font.draw(game.batch, "Press ESC to exit.", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
