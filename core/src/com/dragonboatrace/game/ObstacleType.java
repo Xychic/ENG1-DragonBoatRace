@@ -1,5 +1,6 @@
 package com.dragonboatrace.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,7 +13,7 @@ public enum ObstacleType {
     RUBBISH("rubbish" , (float)1.5, new Vector2(50, 50),    3,      "Obstacles/garbage.png",    MovementCharacteristics.STATIC),
     LONGBOI("longboi",      2,      new Vector2(50, 50),    4,      "Obstacles/longboi.png",    MovementCharacteristics.STATIC),
     BOAT(   "boat",         5,      new Vector2(50, 50),    5,      "Obstacles/shipwreck.png",  MovementCharacteristics.STATIC),
-    FINISHLINE("finish",    0,      new Vector2(1920, 200), 0,      "Obstacles/finishline.png", MovementCharacteristics.STATIC);      
+    FINISHLINE("finish",    0,      new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() * .185f), 0,      "Obstacles/finishline.png", MovementCharacteristics.STATIC);      
     
     String ID;
     float weight;
