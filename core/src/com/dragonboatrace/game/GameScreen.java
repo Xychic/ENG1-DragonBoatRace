@@ -137,7 +137,7 @@ public class GameScreen extends ScreenAdapter {
 			l.render(game.batch, pb.getInGamePos());
 		}
 		
-
+/*
 		game.batch.begin();	// Start drawing HUD (For debugging)
 		String debugString = String.format("stamina: %f\nhealth: %f\npos.x: %f\npos.y: %f\nvel.x: %f\nvel.y: %f\nmaxSpeed: %f\nhealth: %f\nobstacles: %d\ncolliding: %s\nPenalties: %f\nResetDelay: %f", 
 			pb.getStamina(),
@@ -154,6 +154,7 @@ public class GameScreen extends ScreenAdapter {
 			pb.penaltyResetDelay);
 		// game.font.draw(game.batch, debugString, 10, Gdx.graphics.getHeight() - 10);
 		game.batch.end();
+*/
 		
 		checkAllBoatsForFinished();
 
