@@ -9,8 +9,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		Dimension dim = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		config.width=(int)dim.getHeight();
-		config.height=(int)dim.getWidth();
+		config.width=(int)dim.getWidth();
+		config.height=(int)dim.getHeight();
 		config.fullscreen=true;
 		new LwjglApplication(new DragonBoatRace(), config);
 	}
