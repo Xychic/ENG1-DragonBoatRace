@@ -68,17 +68,18 @@ public class midRoundScreen extends ScreenAdapter{
         game.font.draw(game.batch, "You came #"+ playerPositions[0] +" in that leg! You took " + pb.getFinishTimeString() , Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .5f);
         game.font.draw(game.batch, "Overall you are #"+ playerPositions[1] +" in the dragon boat race!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .4f);
 
-        if(round != 3 || playerPositions[1] < 4){
-            if(round != 3){
-                game.font.draw(game.batch, "You can progress to the next round!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
-            }
-            else{
-                game.font.draw(game.batch, "You can progress to the finale!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
-            }
-            
-            game.font.draw(game.batch, "Press space to continue!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .2f);
+        if(round != 2){
+            game.font.draw(game.batch, "You can progress to the next round!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
         }
-        
+        else{
+            game.font.draw(game.batch, "You can progress to the finale!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .3f);
+        }
+        if(pb.getPenalty() > 0){
+            game.font.draw(game.batch, "There is a time penalty of " +String.valueOf(pb.getPenalty()/1000)+ " seconds for crossing the lane boundaries!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .2f);
+        }
+        game.font.draw(game.batch, "Press space to continue!", Gdx.graphics.getWidth() * .1f, Gdx.graphics.getHeight() * .1f);
+
+    
         game.batch.end();
     }
     
