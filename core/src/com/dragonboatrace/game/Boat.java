@@ -133,7 +133,7 @@ public abstract class Boat extends Entity{
     public boolean isFinished(int finishLine){return this.distanceTravelled > finishLine;}
     public void setFinishTime(long finishTime) {this.finishTime = finishTime;}
     public float getPenalty(){return this.timePenalties;}
-    public long getFinishTimeLong(){return finishTime;}
+    public long getFinishTimeLong(){return this.finishTime;}
     public float getMaxSpeed() {return this.currentMaxSpeed;}
     public float getHealth() {return this.currentHealth;}
     public float getStamina() {return this.stamina;}
