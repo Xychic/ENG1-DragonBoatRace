@@ -46,8 +46,8 @@ public class Background extends Entity {
         
         this.allTextures = new Texture[fileNames.length];
         for (int i=0; i<fileNames.length;i++) {
-            //this.allTextures[i] = new Texture(String.format("Backgrounds/%s", fileNames[i]));
-            this.allTextures[i] = new Texture("Backgrounds/bg"+String.valueOf(i)+".jpg");
+            this.allTextures[i] = new Texture(String.format("Backgrounds/%s", fileNames[i]));
+            // this.allTextures[i] = new Texture("Backgrounds/bg"+String.valueOf(i)+".JPG");
         }
     }
 
