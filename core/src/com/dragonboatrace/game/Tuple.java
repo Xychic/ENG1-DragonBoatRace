@@ -8,4 +8,8 @@ public class Tuple<A, B> {
         this.a = a;
         this.b = b;
     }
+
+    public String toString() {
+        return String.format("Tuple<%s, %s>", this.a.toString(), this.b.toString());
+    }
 }

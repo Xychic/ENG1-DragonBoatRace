@@ -7,16 +7,28 @@ import java.util.ArrayList;
 public abstract class Boat extends Entity{
 
     protected BoatType boatType;
-    protected float currentHealth, tiredness, currentMaxSpeed;
+    protected float currentHealth, currentMaxSpeed;
     protected ArrayList<Obstacle> collided;
+    protected float stamina, maxStamina, timePenalties, penaltyResetDelay;
+    protected long finishTime;
+    protected boolean finished = false;
+    protected float distanceTravelled; //distance travelled in one round
+    protected long totalTime;
+    protected Tuple<Float, Float> laneBounds;
 
-    public Boat(BoatType boatType, Vector2 pos) {
-        super(pos, boatType.getSize(), boatType.getWeight());
+    protected Vector2 startPos;
+
+    public Boat(BoatType boatType, Vector2 pos, Tuple<Float, Float> laneBounds) {
+        super(pos.cpy(), boatType.getSize().cpy(), boatType.getWeight());
         this.boatType = boatType;
         this.currentHealth = this.boatType.getMaxHealth();
-        this.tiredness = 100;
         this.currentMaxSpeed = this.boatType.getSpeed();
         this.collided = new ArrayList<Obstacle>();
+        this.stamina = 1000;
+        this.maxStamina = 1000;
+        this.distanceTravelled = 0;
+        this.totalTime = (long) 0;
+        this.laneBounds = laneBounds;
     }
 
     public void collide(Obstacle o) {
@@ -25,18 +37,27 @@ public abstract class Boat extends Entity{
 
     public boolean checkCollision(Obstacle o) {
         boolean colliding = super.checkCollision(o);
-        if (colliding && !this.collided.contains(o)) {
-            this.currentHealth -= o.weight;
-            this.collided.add(o);
+
+        if (colliding) {
+            if (!this.collided.contains(o)) {
+                this.collided.add(o);
+                this.currentHealth -= o.weight;
+                this.currentMaxSpeed = this.boatType.getSpeed() / o.weight;
+                this.stamina = Math.max(this.stamina - 100 * o.weight, 0);
+            }
+        } else if (this.collided.contains(o)) {
+            this.collided.remove(o);
+            this.currentMaxSpeed = this.boatType.getSpeed();
         }
+
         return colliding;
     }
 
     public void render(SpriteBatch batch, Vector2 relPos) {
         batch.begin();
         batch.draw(this.boatType.getImage(), 
-        (this.pos.x-relPos.x), (this.pos.y-relPos.y),  
-        this.boatType.getSize().x, this.boatType.getSize().y);
+            (this.pos.x), (this.pos.y-relPos.y),  
+            this.size.x, this.size.y);
         batch.end();
     }
 
@@ -44,17 +65,80 @@ public abstract class Boat extends Entity{
     public void update(float deltaTime) {
         this.currentMaxSpeed = this.boatType.getSpeed();
         if (this.collider != null) {this.currentMaxSpeed /= this.collider.weight;}
+
         super.update(deltaTime);
+    }
+
+    public boolean checkFinished(int finishLine , long startTime){
+        //finish line is the pixels from the start that the boats have to travel
+        //start time is the system time when the race started
+        
+        if (this.finished){
+            return true;
+        }
+        else if (this.isFinished(finishLine)){
+            this.setFinishTime(System.currentTimeMillis() - startTime + (long)this.timePenalties);
+            this.finished = true;
+        }
+        return this.finished;
+    
+    }
+
+    public String getFinishTimeString() {
+        if (this.finishTime == 0){
+            //calculate an estimate dnf is just temporary?
+            return "DNF";
+        }
+        else{
+            //returns the finish time in minutes:seconds
+            if (((this.finishTime / 1000) / 60) == 0){
+                return String.valueOf((int) ((this.finishTime / 1000) % 60)) + " Seconds";
+            }
+            return String.valueOf((int) ((this.finishTime / 1000) / 60)) + " Minutes and " + String.valueOf((int) ((this.finishTime / 1000) % 60)) + " Seconds";
+        }
+    }
+
+    public String getTotalTimeString() {
+        if (this.totalTime == 0){
+            return "DNF";
+        }
+        else{
+            //returns the finish time in minutes:seconds
+            if (((this.totalTime / 1000) / 60) == 0){
+                return String.valueOf((int) ((this.totalTime / 1000) % 60)) + " Seconds";
+            }
+            return String.valueOf((int) ((this.totalTime / 1000) / 60)) + " Minutes and " + String.valueOf((int) ((this.totalTime / 1000) % 60)) + " Seconds";
+        }
+    }
+
+    public void saveStartPos() {
+        this.startPos = this.pos.cpy();
+    }
+
+    public void moveToStart(){
+        this.inGamePos = startPos.cpy();
+        this.pos = startPos.cpy();
+        this.vel = new Vector2();
+        this.stamina = maxStamina; 
+        this.distanceTravelled = 0;
+        this.totalTime += finishTime;
+        this.finishTime = (long) 0;
+        this.finished = false;
     }
 
     public void dispose() {
         this.boatType.getImage().dispose();
     }
 
-    public float getMaxSpeed() {
-        float speed = this.boatType.getSpeed();
-        if (this.collider != null) {speed /= this.collider.weight;} 
-        return speed;
-    }
+    public boolean isFinished(int finishLine){return this.distanceTravelled > finishLine;}
+    public void setFinishTime(long finishTime) {this.finishTime = finishTime;}
+    public float getPenalty(){return this.timePenalties;}
+    public long getFinishTimeLong(){return this.finishTime;}
+    public float getMaxSpeed() {return this.currentMaxSpeed;}
     public float getHealth() {return this.currentHealth;}
+    public float getStamina() {return this.stamina;}
+    public float getDistanceTravelled() {return this.distanceTravelled;}
+    public BoatType getType() {return this.boatType;}
+    public float getMaxStamina() {return this.maxStamina;}
+    public float getCurrentSpeed() {return this.vel.y;}
 }

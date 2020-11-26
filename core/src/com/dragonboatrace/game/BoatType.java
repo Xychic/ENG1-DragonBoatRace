@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public enum BoatType {
     //TYPE( ID,          speed, accleration,    maxHealth,  weight, strength,   handling,   size,               imageSrc)
-    FAST("fastBoat",     4,     3,              100,        1,      1,          1,          new Vector2(100, 100),  "Boats/fast.jpg"),
-    NORMAL("normalBoat", 3,     2,              200,        2,      2,          2,          new Vector2(100, 100),  "Boats/normal.jpg"),
-    HEAVY("heavyBoat",   3,     1,              400,        3,      2,          1,          new Vector2(100, 100),  "Boats/heavy.jpg"),
-    LIGHT("lightBoat",   3,     3,              100,        1,      1,          3,          new Vector2(100, 100),  "Boats/light.jpg"),
-    AGILE("agileBoat",   3,     2,              200,        2,      2,          3,          new Vector2(100, 100),  "Boats/agile.jpg"),
-    STRONG("strongBoat", 3,     2,              300,        3,      3,          1,          new Vector2(100, 100),  "Boats/strong.jpg");
+    FAST("Fast Boat",     20,    15,             100,        1,      1,          1,          new Vector2(100, 100),  "Boats/FastBoat.PNG"),
+    NORMAL("Normal Boat", 15,    10,             200,        2,      2,          2,          new Vector2(100, 100),  "Boats/NormalBoat.PNG"),
+    HEAVY("Heavy Boat",   15,    5,              400,        3,      2,          1,          new Vector2(100, 100),  "Boats/HeavyBoat.PNG"),
+    LIGHT("Light Boat",   15,    15,             100,        1,      1,          3,          new Vector2(100, 100),  "Boats/LightBoat.PNG"),
+    AGILE("Agile Boat",   15,    10,             200,        2,      2,          3,          new Vector2(100, 100),  "Boats/AgileBoat.PNG"),
+    STRONG("Strong Boat", 15,    10,             300,        3,      3,          1,          new Vector2(100, 100),  "Boats/StrongBoat.PNG");
 
     String ID;
     float speed, acceleration, maxHealth, weight, strength, handling;
@@ -26,7 +26,7 @@ public enum BoatType {
         this.strength = strength;
         this.handling = handling;
         this.size = size;
-        this.image = new Texture("Boats/StrongBoat.PNG");
+        this.image = new Texture(imageSrc);
     }
 
     public String getID() {return this.ID;}

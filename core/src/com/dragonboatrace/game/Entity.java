@@ -2,7 +2,6 @@ package com.dragonboatrace.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public abstract class Entity {
 
@@ -30,11 +29,13 @@ public abstract class Entity {
             this.pos.add(deltaX, 0);
             this.inGamePos.add(deltaX, 0);
             this.vel.add(-deltaX, 0);
+
         }
         if (deltaY != 0) {
             this.pos.add(0, deltaY);
             this.inGamePos.add(0, deltaY);
             this.vel.add(0, -deltaY);
+
         }
     }
 
