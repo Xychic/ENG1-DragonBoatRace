@@ -52,7 +52,6 @@ public abstract class Entity {
                 float checkY = e.inGamePos.y + (dy * e.size.y);
                 if ((x1 <= checkX && checkX <= x2) && 
                     (y1 <= checkY && checkY <= y2)) {
-                        this.collider = e;
                         return true;
                 }
             }
